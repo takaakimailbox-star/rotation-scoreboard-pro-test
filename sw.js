@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v0-9-history-scroll-fix';
+const CACHE_NAME = 'rotation-scoreboard-pro-v1-0-history-scroll-final';
 const ASSETS = [
   './',
   './index.html',
