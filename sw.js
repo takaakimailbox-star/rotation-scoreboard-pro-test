@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v0-5-opponent-stats';
+const CACHE_NAME = 'rotation-scoreboard-pro-v0-7-history-layout';
 const ASSETS = [
   './',
   './index.html',

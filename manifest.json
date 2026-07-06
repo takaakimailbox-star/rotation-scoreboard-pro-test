@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro prototype with opponent stats.",
+  "description": "Rotation billiards scoreboard Pro prototype with organized history.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

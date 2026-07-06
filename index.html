@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v0.5: match history */
+/* Pro v0.7: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v0.5: stats summary */
+/* Pro v0.7: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v0.5: saved status is not button-like */
+/* Pro v0.7: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v0.5: opponent stats */
+/* Pro v0.7: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1015,6 +1015,159 @@ button {
   }
 }
 
+
+/* Pro v0.7: show history from game set */
+.modalBtnHistory {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.28);
+  width: 100%;
+  margin-top: 10px;
+}
+.modalBtnHistory:active {
+  transform: translateY(1px);
+}
+
+
+/* Pro v0.7: organized history screen */
+.historyTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+.historyTopCloseBtn {
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 14px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 9px 12px;
+  flex-shrink: 0;
+}
+.historySection {
+  background: rgba(0,0,0,.10);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  padding: 11px 10px 10px;
+  margin: 10px 0;
+}
+.historySectionLast {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.historySectionTitle {
+  font-size: 16px;
+  font-weight: 950;
+  color: #fff;
+  margin: 0 0 9px;
+}
+.historyCard {
+  max-height: min(88dvh, 740px);
+}
+.historyList {
+  min-height: 130px;
+  max-height: 42dvh;
+}
+.historyStats {
+  margin: 0;
+}
+.opponentStats {
+  margin: 0;
+}
+.opponentTitle {
+  display: none;
+}
+.opponentList {
+  max-height: 24dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 2px;
+}
+.opponentCard {
+  padding: 9px 10px;
+}
+.opponentTop {
+  margin-bottom: 6px;
+}
+.historyItem {
+  margin: 8px 0;
+  padding: 10px;
+}
+.historyTopLine {
+  margin-bottom: 6px;
+}
+.historyPlayers {
+  font-size: 16px;
+}
+.historyScore {
+  font-size: 20px;
+  margin: 5px 0 7px;
+}
+.historyDeleteBtn {
+  margin-top: 8px;
+  padding: 8px 10px;
+}
+.historyEmpty {
+  padding: 22px 8px;
+}
+@media (max-width: 430px) {
+  .historyCard {
+    width: min(95vw, 480px);
+    padding: 18px 13px 14px;
+  }
+  .historyTitleRow {
+    margin-bottom: 8px;
+  }
+  .historySection {
+    padding: 9px 8px;
+    margin: 8px 0;
+    border-radius: 16px;
+  }
+  .historySectionTitle {
+    font-size: 15px;
+    margin-bottom: 7px;
+  }
+  .historyStats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .statCard {
+    padding: 8px 4px;
+  }
+  .statLabel {
+    font-size: 11px;
+  }
+  .statValue {
+    font-size: 18px;
+  }
+  .historyStatsNote {
+    font-size: 11px;
+  }
+  .opponentList {
+    max-height: 22dvh;
+  }
+  .opponentMeta {
+    gap: 5px;
+  }
+  .historyList {
+    max-height: 34dvh;
+  }
+  .historyActions {
+    margin-top: 10px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1062,7 +1215,7 @@ button {
 
       <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 0.5</div>
+      <div class="versionText">Pro prototype 0.7</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1155,10 +1308,25 @@ button {
 
     <section id="historyGuide" class="guideOverlay hidden">
       <div class="guideCard guideCardWide historyCard">
-        <div class="guideTitle">試合履歴</div>
-        <div id="historyStats" class="historyStats"></div>
-        <div id="opponentStats" class="opponentStats"></div>
-        <div id="historyList" class="historyList"></div>
+        <div class="guideTitle historyTitleRow">
+          <span>試合履歴</span>
+          <button id="historyTopCloseBtn" class="historyTopCloseBtn">閉じる</button>
+        </div>
+
+        <div class="historySection">
+          <div class="historySectionTitle">全体成績</div>
+          <div id="historyStats" class="historyStats"></div>
+        </div>
+
+        <div class="historySection">
+          <div class="historySectionTitle">対戦相手別</div>
+          <div id="opponentStats" class="opponentStats"></div>
+        </div>
+
+        <div class="historySection historySectionLast">
+          <div class="historySectionTitle">試合履歴</div>
+          <div id="historyList" class="historyList"></div>
+        </div>
         <div class="historyActions">
           <button id="historyClearBtn" class="guideSubBtn">全履歴削除</button>
           <button id="historyCloseBtn" class="guideMainBtn">閉じる</button>
@@ -1491,7 +1659,8 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.5：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.7：試合結果をこの端末の履歴に保存できます'}</div>
+      <button class="modalBtnHistory" onclick="openHistory()">履歴をみる</button>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
   `;
@@ -1515,7 +1684,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v0.5: local match history
+// Pro v0.7: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -1748,6 +1917,7 @@ function renderHistoryList() {
 }
 
 $("historyCloseBtn").onclick = closeHistory;
+$("historyTopCloseBtn").onclick = closeHistory;
 $("historyClearBtn").onclick = clearHistory;
 
 // v6.8: iPhone Safari zoom guard
