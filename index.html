@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v0.2: match history */
+/* Pro v0.3: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -860,6 +860,55 @@ button {
   .historyActions { grid-template-columns: 1fr; }
 }
 
+
+/* Pro v0.3: stats summary */
+.historyStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+.statCard {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.statLabel {
+  font-size: 12px;
+  opacity: .78;
+  margin-bottom: 4px;
+}
+.statValue {
+  font-size: 22px;
+  font-weight: 950;
+  color: #ffd54a;
+  line-height: 1.15;
+}
+.statValue small {
+  font-size: 13px;
+  color: rgba(255,255,255,.88);
+}
+.historyStatsNote {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  opacity: .75;
+  line-height: 1.35;
+  padding: 0 4px 2px;
+}
+@media (max-width: 430px) {
+  .historyStats {
+    gap: 7px;
+  }
+  .statCard {
+    padding: 9px 6px;
+  }
+  .statValue {
+    font-size: 20px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -907,7 +956,7 @@ button {
 
       <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 0.2</div>
+      <div class="versionText">Pro prototype 0.3</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1001,6 +1050,7 @@ button {
     <section id="historyGuide" class="guideOverlay hidden">
       <div class="guideCard guideCardWide historyCard">
         <div class="guideTitle">試合履歴</div>
+        <div id="historyStats" class="historyStats"></div>
         <div id="historyList" class="historyList"></div>
         <div class="historyActions">
           <button id="historyClearBtn" class="guideSubBtn">全履歴削除</button>
@@ -1334,7 +1384,7 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       <button class="modalBtnPro" onclick="saveCurrentMatch()">${currentGameSaved ? "保存済み" : "履歴に保存"}</button>
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.2：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.3：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
   `;
@@ -1358,7 +1408,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v0.2: local match history
+// Pro v0.3: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -1429,9 +1479,69 @@ function clearHistory() {
   renderHistoryList();
 }
 
+
+function calcHistoryStats(list) {
+  const total = list.length;
+  if (!total) return null;
+
+  const p1Wins = list.filter(item => item.winnerNo === 1 || item.winner === item.p1Name).length;
+  const avg = (values) => values.reduce((a,b) => a + Number(b || 0), 0) / total;
+  const fmt = (num, digits=1) => Number.isFinite(num) ? num.toFixed(digits) : "0.0";
+
+  return {
+    total,
+    winRate: Math.round((p1Wins / total) * 100),
+    avgScore: fmt(avg(list.map(item => item.p1Score)), 1),
+    avgInning: fmt(avg(list.map(item => item.inning)), 1),
+    avgSafety: fmt(avg(list.map(item => Number(item.p1Safety || 0) + Number(item.p2Safety || 0))), 1),
+    avgFoul: fmt(avg(list.map(item => Number(item.p1Foul || 0) + Number(item.p2Foul || 0))), 1)
+  };
+}
+
+function renderHistoryStats(list) {
+  const el = $("historyStats");
+  if (!el) return;
+
+  const stats = calcHistoryStats(list);
+  if (!stats) {
+    el.innerHTML = "";
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="statCard">
+      <div class="statLabel">保存試合数</div>
+      <div class="statValue">${stats.total}<small>試合</small></div>
+    </div>
+    <div class="statCard">
+      <div class="statLabel">勝率</div>
+      <div class="statValue">${stats.winRate}<small>%</small></div>
+    </div>
+    <div class="statCard">
+      <div class="statLabel">平均得点</div>
+      <div class="statValue">${stats.avgScore}</div>
+    </div>
+    <div class="statCard">
+      <div class="statLabel">平均イニング</div>
+      <div class="statValue">${stats.avgInning}</div>
+    </div>
+    <div class="statCard">
+      <div class="statLabel">S平均</div>
+      <div class="statValue">${stats.avgSafety}</div>
+    </div>
+    <div class="statCard">
+      <div class="statLabel">F平均</div>
+      <div class="statValue">${stats.avgFoul}</div>
+    </div>
+    <div class="historyStatsNote">※勝率と平均得点はPlayer 1側を基準に集計しています。S/F平均は1試合あたりの合計回数です。</div>
+  `;
+}
+
 function renderHistoryList() {
   const el = $("historyList");
   const list = getMatchHistory();
+  renderHistoryStats(list);
+
   if (!list.length) {
     el.innerHTML = '<div class="historyEmpty">まだ保存された試合はありません。<br>試合終了後に「履歴に保存」を押すと、ここに表示されます。</div>';
     return;
