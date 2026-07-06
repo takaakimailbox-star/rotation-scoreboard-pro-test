@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v0.7: match history */
+/* Pro v0.8: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v0.7: stats summary */
+/* Pro v0.8: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v0.7: saved status is not button-like */
+/* Pro v0.8: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v0.7: opponent stats */
+/* Pro v0.8: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1016,7 +1016,7 @@ button {
 }
 
 
-/* Pro v0.7: show history from game set */
+/* Pro v0.8: show history from game set */
 .modalBtnHistory {
   border: 0;
   border-radius: 16px;
@@ -1034,7 +1034,7 @@ button {
 }
 
 
-/* Pro v0.7: organized history screen */
+/* Pro v0.8: organized history screen */
 .historyTitleRow {
   display: flex;
   align-items: center;
@@ -1168,6 +1168,72 @@ button {
   }
 }
 
+
+/* Pro v0.8: history bottom overlap fix */
+.historyCard {
+  height: min(88dvh, 740px);
+  max-height: min(88dvh, 740px);
+  overflow: hidden;
+}
+.historyTitleRow {
+  flex: 0 0 auto;
+}
+.historySection {
+  flex: 0 0 auto;
+}
+.historySectionLast {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+.historySectionLast .historyList {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none !important;
+  overflow-y: auto;
+  padding-bottom: 12px;
+}
+.historyActions {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 5;
+  background: #0a5636;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.historyNote {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 5;
+  background: #0a5636;
+  margin: 7px 0 0;
+  padding-bottom: 2px;
+}
+.historyItem:last-child {
+  margin-bottom: 4px;
+}
+@media (max-width: 430px) {
+  .historyCard {
+    height: min(86dvh, 700px);
+    max-height: min(86dvh, 700px);
+  }
+  .historyList {
+    max-height: none !important;
+  }
+  .historyActions {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .historyActions .guideMainBtn,
+  .historyActions .guideSubBtn {
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+  .historyNote {
+    font-size: 11px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1215,7 +1281,7 @@ button {
 
       <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 0.7</div>
+      <div class="versionText">Pro prototype 0.8</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1659,7 +1725,7 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.7：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.8：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnHistory" onclick="openHistory()">履歴をみる</button>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
@@ -1684,7 +1750,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v0.7: local match history
+// Pro v0.8: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
