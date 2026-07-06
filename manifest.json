@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro prototype with setup validation.",
+  "description": "Rotation billiards scoreboard Pro prototype with corrected goal validation.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
