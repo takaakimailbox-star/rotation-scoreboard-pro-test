@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v0.1: match history */
+/* Pro v0.2: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -907,7 +907,7 @@ button {
 
       <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 0.1</div>
+      <div class="versionText">Pro prototype 0.2</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1012,11 +1012,11 @@ button {
 
     <section id="confirmNewGame" class="confirmOverlay hidden">
       <div class="confirmCard">
-        <div class="confirmTitle">New Game?</div>
-        <div class="confirmText">現在の試合を終了して<br>新しい試合を始めますか？</div>
+        <div class="confirmTitle">新しい試合を設定</div>
+        <div class="confirmText">現在の試合を終了して<br>Game setup画面に戻りますか？</div>
         <div class="confirmActions">
           <button id="cancelNewGameBtn" class="modalBtnSecondary confirmCancel">キャンセル</button>
-          <button id="confirmNewGameBtn" class="modalBtnPrimary confirmDanger">New Game</button>
+          <button id="confirmNewGameBtn" class="modalBtnPrimary confirmDanger">設定画面に戻る</button>
         </div>
       </div>
     </section>
@@ -1334,8 +1334,8 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       <button class="modalBtnPro" onclick="saveCurrentMatch()">${currentGameSaved ? "保存済み" : "履歴に保存"}</button>
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存されています</span>' : 'Pro v0.1：この端末に試合結果を保存できます'}</div>
-      <button class="modalBtnPrimary" onclick="requestNewGame()">New Game</button>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.2：試合結果をこの端末の履歴に保存できます'}</div>
+      <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
   `;
 }
@@ -1358,7 +1358,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v0.1: local match history
+// Pro v0.2: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
