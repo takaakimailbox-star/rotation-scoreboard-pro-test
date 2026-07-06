@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v0-8-history-overlap-fix';
+const CACHE_NAME = 'rotation-scoreboard-pro-v0-9-history-scroll-fix';
 const ASSETS = [
   './',
   './index.html',
