@@ -1,0 +1,1552 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#063d28">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rotation Scoreboard">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <title>Rotation Scoreboard Pro</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background: #063d28;
+  color: #fff;
+}
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: env(safe-area-inset-top) 12px 18px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 12px;
+}
+h1 { font-size: 23px; margin: 0; letter-spacing: .3px; text-align:center; }
+.smallBtn {
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+.hidden { display: none !important; }
+.setup {
+  background: transparent;
+  border-radius: 0;
+  padding: 14px 4px 6px;
+  margin-top: 10px;
+}
+.setup h2 {
+  margin: 6px 0 22px;
+  font-size: 28px;
+  text-align: center;
+}
+.playerSetup {
+  margin: 18px 0 36px;
+}
+.playerSetup h3 {
+  margin: 0 0 16px;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 900;
+}
+.setupRow {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 13px 0;
+}
+.setupRow label {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+.setup input {
+  width: 100%; font-size: 22px; border-radius: 9px;
+  border: 2px solid rgba(255,255,255,.72);
+  background: rgba(255,255,255,.16); color: #fff;
+  padding: 10px 12px; margin: 0;
+}
+.setup input::placeholder { color: rgba(255,255,255,.62); }
+.startBtn {
+  width: min(92%, 390px); display: block; margin: 26px auto 0; padding: 20px 16px;
+  border: 3px solid rgba(255,255,255,.9); border-radius: 16px;
+  color: #fff; background: rgba(20,128,74,.75);
+  font-size: 27px; font-weight: 900;
+}
+.setupNote {
+  text-align: center;
+  margin-top: 14px;
+  opacity: .78;
+  font-size: 13px;
+}
+
+.firstPlayerBox {
+  margin: 18px auto 10px;
+  width: min(94%, 410px);
+}
+.firstPlayerTitle {
+  font-size: 21px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.firstPlayerButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.firstPlayerBtn {
+  border: 2px solid rgba(255,255,255,.35);
+  border-radius: 16px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  padding: 14px 8px;
+  font-size: 19px;
+  font-weight: 900;
+}
+.firstPlayerBtn.selected {
+  border-color: #ffd54a;
+  box-shadow: 0 0 14px rgba(255,213,74,.28);
+  background: rgba(255,213,74,.16);
+}
+.startBtn {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.rackIcon {
+  width: 76px;
+  height: 86px;
+  display: grid;
+  grid-template-columns: repeat(5, 15px);
+  grid-template-rows: repeat(5, 15px);
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
+}
+.rackDot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  font-weight: 900;
+  color: #111;
+  border: 1px solid rgba(0,0,0,.28);
+  position: relative;
+  overflow: hidden;
+}
+.rackDot::before { content:""; position:absolute; inset: 3px; border-radius: 50%; background: rgba(255,255,255,.88); }
+.rackDot span { position: relative; z-index: 1; }
+.action { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+.actionIcon {
+  width: 34px;
+  height: 34px;
+  display: block;
+  margin-bottom: 1px;
+  color: rgba(255,255,255,.95);
+}
+.actionMain { line-height: 1; }
+.switch .actionIcon { width: 40px; height: 40px; }
+.undo .actionIcon { width: 46px; height: 46px; }
+
+.scoreboard { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.playerPanel {
+  background: rgba(255,255,255,.15); border-radius: 8px;
+  padding: 12px 6px; text-align: center; border: 3px solid transparent;
+}
+.playerPanel.active { border-color: #ffd54a; box-shadow: 0 0 14px rgba(255,213,74,.35); }
+.name { font-size: 25px; opacity: .95; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.score { font-size: 76px; font-weight: 800; line-height: 1; margin: 12px 0; }
+.stats { font-size: 18px; opacity: .9; }
+.status {
+  display: grid; grid-template-columns: repeat(3, 1fr); text-align: center;
+  font-size: 20px; padding: 14px 0 10px;
+  border-bottom: 2px solid rgba(255,255,255,.7);
+}
+.logWrap { margin-top: 8px; display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.logHeader {
+  display: grid; grid-template-columns: 58px 1fr 1fr;
+  color: rgba(255,255,255,.8); font-size: 14px;
+  text-align: center; margin-bottom: 4px;
+}
+.turnLog {
+  min-height: 220px; max-height: none; overflow-y: auto;
+  border-bottom: 2px solid rgba(255,255,255,.7);
+  flex: 1 1 auto;
+}
+
+.rackDivider {
+  margin: 6px 0 2px;
+  padding: 4px 10px;
+  background: rgba(255,213,74,.18);
+  border-left: 4px solid #ffd54a;
+  color: #fff7c7;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: .3px;
+}
+.logRow {
+  display: grid; grid-template-columns: 58px 1fr 1fr;
+  align-items: center; min-height: 38px;
+  border-top: 1px solid rgba(255,255,255,.35); font-size: 18px;
+}
+.logRow.activeRow { background: rgba(255,255,255,.08); }
+.turnLabel { text-align: center; opacity: .9; font-size: 18px; }
+.logCell { min-height: 36px; display: flex; align-items: center; flex-wrap: wrap; gap: 3px; padding: 3px 5px; }
+.logCell.p1 { justify-content: flex-start; }
+.logCell.p2 { justify-content: flex-start; }
+.event { display: inline-flex; align-items: center; justify-content: center; }
+.miniBall {
+  width: 25px; height: 25px; border-radius: 50%; position: relative;
+  color: #111; font-size: 15px; font-weight: 900; overflow: hidden;
+  border: 1px solid rgba(0,0,0,.22);
+}
+.miniBall::before { content:""; position:absolute; inset: 6px 3px; background: rgba(255,255,255,.95); border-radius: 999px; z-index:0; }
+.miniBall.solid::before { inset: 4px; }
+.miniBall span { position: relative; z-index: 1; }
+.sym { font-weight: 900; font-size: 23px; padding: 0 4px; }
+.sym.s { color: #dfffe7; }
+.sym.f { color: #ffd6d6; }
+.playArea { position: relative; }
+.balls {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: min(100%, 430px);
+  margin: 10px auto 12px;
+}
+.ball {
+  aspect-ratio: 1; border-radius: 50%; border: 2px solid rgba(0,0,0,.25);
+  color: #111; font-size: 28px; font-weight: 900; background: #eee;
+  position: relative; overflow: hidden; padding: 0;
+}
+.ball::before { content:""; position:absolute; inset: 29% 10%; background: rgba(255,255,255,.96); border-radius: 999px; z-index: 0; }
+.ball.solid::before { inset: 22%; }
+.ball span { position: relative; z-index: 1; }
+.ball.eight span, .miniBall.eight span { color: #111; }
+.ball.used { opacity: .18; }
+.ball:disabled { cursor: not-allowed; }
+.balls.rackEnded .ball { opacity: .16; }
+.balls.locked .ball:not(.used) { opacity: .38; }
+.nextRackBox {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(92%, 390px); background: rgba(0,0,0,.66);
+  border: 2px solid rgba(255,255,255,.35); border-radius: 22px;
+  padding: 16px; text-align: center; z-index: 10;
+}
+.rackResult { font-size: 20px; font-weight: 900; line-height: 1.55; margin-bottom: 12px; }
+.rackResult small { font-size: 15px; opacity: .9; }
+.nextRackBtn {
+  width: 100%; border: 0; border-radius: 18px; padding: 17px 12px;
+  color: #fff; background: #b05238; font-size: 25px; font-weight: 900;
+}
+.nextRackHint { font-size: 13px; opacity: .88; margin-top: 10px; line-height: 1.35; }
+.actions { display: grid; grid-template-columns: 1fr 1fr 1.45fr 1fr; gap: 8px; align-items: stretch; }
+.action { min-height: 72px; border: 0; border-radius: 18px; color: #fff; font-size: 22px; font-weight: 900; }
+.action small { font-size: 11px; font-weight: 700; }
+.safety { background: #2b7bba; }
+.foul { background: #b23a30; }
+.switch { background: #32744f; min-height: 86px; font-size: 26px; box-shadow: 0 0 14px rgba(255,255,255,.16); }
+.undo { background: #777; }
+.action:disabled { opacity: .35; }
+.summary { margin-top: 16px; background: rgba(0,0,0,.28); border-radius: 16px; padding: 14px; font-size: 18px; }
+
+
+/* v6 free version polish */
+.game {
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 82px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(6,61,40,.96); backdrop-filter: blur(10px); }
+.summary {
+  position: fixed; inset: 0; z-index: 100;
+  margin: 0; padding: 22px;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+}
+.summaryCard {
+  width: min(92vw, 430px);
+  background: #0a5636;
+  border: 2px solid rgba(255,255,255,.38);
+  border-radius: 26px;
+  padding: 24px 18px 20px;
+  text-align: center;
+  box-shadow: 0 22px 60px rgba(0,0,0,.35);
+}
+.gameSetTitle { font-size: 34px; font-weight: 950; margin-bottom: 6px; }
+.winnerName { font-size: 30px; font-weight: 950; color: #ffd54a; margin-bottom: 18px; }
+.finalScores { display: grid; gap: 8px; margin: 12px 0 14px; text-align: left; }
+.finalLine { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: rgba(255,255,255,.10); border-radius: 14px; padding: 10px 12px; font-size: 18px; font-weight: 850; }
+.finalMeta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+.finalMeta div { background: rgba(0,0,0,.18); border-radius: 12px; padding: 9px 6px; font-size: 16px; font-weight: 800; }
+.modalBtnPrimary, .modalBtnSecondary {
+  border: 0; border-radius: 16px; padding: 14px 16px;
+  color: #fff; font-size: 18px; font-weight: 900;
+}
+.modalBtnPrimary { background: #b05238; width: 100%; margin-top: 8px; }
+.modalBtnSecondary { background: rgba(255,255,255,.20); }
+.confirmOverlay {
+  position: fixed; inset: 0; z-index: 120;
+  background: rgba(0,0,0,.52);
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+}
+.confirmCard {
+  width: min(92vw, 390px);
+  background: #0a5636;
+  border: 2px solid rgba(255,255,255,.35);
+  border-radius: 24px;
+  padding: 22px 18px 18px;
+  text-align: center;
+  box-shadow: 0 22px 60px rgba(0,0,0,.36);
+}
+.confirmTitle { font-size: 24px; font-weight: 950; margin-bottom: 8px; }
+.confirmText { font-size: 17px; line-height: 1.55; opacity: .92; margin-bottom: 18px; }
+.confirmActions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.confirmDanger { background: #b23a30; }
+.confirmCancel { background: #777; }
+.versionText { text-align: right; margin-top: 28px; opacity: .75; font-size: 14px; }
+.actions { position: sticky; bottom: env(safe-area-inset-bottom); z-index: 25; padding-top: 6px; background: linear-gradient(to top, rgba(6,61,40,1) 72%, rgba(6,61,40,0)); }
+
+@media (max-width: 430px) {
+  .app { max-width: 100%; padding-left: 10px; padding-right: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+  .game { min-height: calc(100dvh - 74px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  h1 { font-size: 19px; }
+  .smallBtn { padding: 7px 10px; }
+  .scoreboard { gap: 6px; }
+  .playerPanel { padding: 7px 4px; border-radius: 7px; }
+  .name { font-size: 18px; }
+  .score { font-size: 52px; margin: 6px 0; }
+  .stats { font-size: 12px; }
+  .status { font-size: 16px; padding: 8px 0 6px; }
+  .logWrap { margin-top: 6px; }
+  .logHeader { grid-template-columns: 44px 1fr 1fr; font-size: 11px; margin-bottom: 2px; }
+  .logRow { grid-template-columns: 44px 1fr 1fr; min-height: 30px; }
+  .turnLabel { font-size: 15px; }
+  .turnLog { min-height: 300px; }
+  .miniBall { width: 21px; height: 21px; font-size: 12px; }
+  .miniBall::before { inset: 5px 3px; }
+  .miniBall.solid::before { inset: 4px; }
+  .sym { font-size: 20px; }
+  .balls { width: min(92vw, 360px); gap: 7px; margin: 7px auto 7px; }
+  .ball { font-size: 24px; border-width: 1px; }
+  .actions { gap: 6px; grid-template-columns: .92fr .92fr 1.35fr .95fr; }
+  .action { min-height: 56px; border-radius: 14px; font-size: 17px; }
+  .action small { font-size: 9px; }
+  .switch { min-height: 62px; font-size: 20px; }
+  .setup { padding-top: 6px; }
+  .setup h2 { font-size: 25px; margin-bottom: 16px; }
+  .playerSetup { margin: 14px 0 28px; }
+  .playerSetup h3 { font-size: 34px; }
+  .setupRow { grid-template-columns: 82px 1fr; gap: 10px; }
+  .setupRow label { font-size: 20px; }
+  .setup input { font-size: 20px; padding: 9px 11px; }
+  .startBtn { margin-top: 18px; padding: 15px 14px; font-size: 24px; gap: 14px; }
+  .rackIcon { width: 66px; height: 74px; grid-template-columns: repeat(5, 13px); grid-template-rows: repeat(5, 13px); }
+  .rackDot { width: 13px; height: 13px; font-size: 6px; }
+  .firstPlayerTitle { font-size: 19px; }
+  .firstPlayerBtn { font-size: 17px; padding: 12px 8px; }
+}
+
+@media (max-height: 760px) {
+  .game { min-height: calc(100dvh - 70px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  .score { font-size: 48px; margin: 5px 0; }
+  .stats { font-size: 11px; }
+  .status { padding: 6px 0 5px; font-size: 15px; }
+  .turnLog { min-height: 270px; }
+  .balls { width: min(90vw, 345px); gap: 6px; margin: 6px auto 6px; }
+  .ball { font-size: 23px; }
+  .action { min-height: 54px; }
+  .switch { min-height: 60px; }
+}
+
+  
+/* v6.5 label polish */
+.action { white-space: nowrap; }
+.actionMain { line-height: 1.15; }
+@media (max-width: 430px) {
+  .actions { grid-template-columns: 1fr 1fr 1.55fr .9fr; }
+  .action { font-size: 15px; padding: 4px 3px; }
+  .switch { font-size: 15px; }
+}
+
+/* v6.6: Start Game icon removed */
+.startBtn {
+  display: block !important;
+  text-align: center;
+}
+
+  
+
+/* v6.7 fixed top and bottom for iPhone */
+:root {
+  --topbar-h: 60px;
+}
+body {
+  overscroll-behavior: none;
+}
+.topbar {
+  min-height: var(--topbar-h);
+}
+.topFixed {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 15;
+  background: linear-gradient(to bottom, rgba(6,61,40,.985), rgba(6,61,40,.965));
+  padding-bottom: 6px;
+  flex-shrink: 0;
+}
+.logWrap {
+  overflow: hidden;
+}
+.logHeader {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: rgba(6,61,40,.96);
+  padding-bottom: 4px;
+}
+.bottomDock {
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  background: linear-gradient(to top, rgba(6,61,40,.99) 78%, rgba(6,61,40,.94));
+  padding-top: 6px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  flex-shrink: 0;
+}
+.bottomDock .playArea,
+.bottomDock .actions {
+  flex-shrink: 0;
+}
+.bottomDock .balls {
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+.app.gameMode {
+  height: 100dvh;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+.app.gameMode .game {
+  height: calc(100dvh - env(safe-area-inset-top));
+  min-height: 0;
+  overflow: hidden;
+}
+.app.gameMode .logWrap {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.app.gameMode .turnLog {
+  height: 100%;
+  min-height: 0;
+  padding-bottom: 6px;
+}
+.app.gameMode .summary {
+  z-index: 120;
+}
+
+@media (max-width: 430px) {
+  :root {
+    --topbar-h: 56px;
+  }
+  .topFixed {
+    padding-bottom: 4px;
+  }
+  .logHeader {
+    padding-bottom: 2px;
+  }
+  .bottomDock {
+    padding-top: 4px;
+  }
+  .bottomDock .balls {
+    width: min(92vw, 350px);
+    gap: 6px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+  }
+  .bottomDock .actions {
+    gap: 6px;
+  }
+  .bottomDock .action {
+    min-height: 54px;
+    font-size: 15px;
+  }
+  .bottomDock .switch {
+    min-height: 58px;
+    font-size: 15px;
+  }
+}
+
+
+
+/* v6.8: fixed score/top + fixed ball/actions + center history scroll only */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+button, input, select, textarea {
+  touch-action: manipulation;
+  font-size: 16px;
+}
+.app.gameMode {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+.app.gameMode .topbar {
+  position: static;
+  flex: 0 0 auto;
+}
+.app.gameMode .game {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  overflow: hidden;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  padding-bottom: 0;
+}
+.app.gameMode .topFixed {
+  position: static;
+  flex-shrink: 0;
+}
+.app.gameMode .logWrap {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.app.gameMode .turnLog {
+  min-height: 0 !important;
+  max-height: none !important;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.app.gameMode .bottomDock {
+  position: static;
+  flex-shrink: 0;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+}
+.app.gameMode .actions {
+  position: static;
+  padding-top: 0;
+  background: transparent;
+}
+.app.gameMode .playArea {
+  flex-shrink: 0;
+}
+.app.gameMode .balls {
+  flex-shrink: 0;
+}
+
+@media (max-width: 430px) {
+  .app.gameMode .topbar {
+    min-height: 54px;
+    padding-top: 6px;
+    padding-bottom: 8px;
+  }
+  .app.gameMode .playerPanel {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  .app.gameMode .score {
+    font-size: 50px;
+    margin: 4px 0;
+  }
+  .app.gameMode .status {
+    padding: 7px 0 5px;
+  }
+  .app.gameMode .bottomDock .balls {
+    width: min(91vw, 342px);
+    gap: 6px;
+    margin: 5px auto 6px;
+  }
+  .app.gameMode .bottomDock .action {
+    min-height: 54px;
+  }
+  .app.gameMode .bottomDock .switch {
+    min-height: 58px;
+  }
+}
+
+@media (max-height: 760px) {
+  .app.gameMode .topbar {
+    min-height: 50px;
+    padding-top: 5px;
+    padding-bottom: 6px;
+  }
+  .app.gameMode .score {
+    font-size: 46px;
+    margin: 3px 0;
+  }
+  .app.gameMode .playerPanel {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .app.gameMode .status {
+    padding: 5px 0 4px;
+  }
+  .app.gameMode .bottomDock .balls {
+    width: min(90vw, 332px);
+    gap: 5px;
+    margin: 4px auto 5px;
+  }
+  .app.gameMode .bottomDock .action {
+    min-height: 50px;
+  }
+  .app.gameMode .bottomDock .switch {
+    min-height: 54px;
+  }
+}
+
+
+
+/* v7.1: iPhone fixed screen / no whole-page drag */
+html,
+body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  background: #063d28;
+}
+body {
+  touch-action: none;
+}
+.app {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden !important;
+}
+.app.gameMode {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden !important;
+}
+.app.gameMode .game {
+  height: calc(100dvh - env(safe-area-inset-top));
+  max-height: calc(100dvh - env(safe-area-inset-top));
+  overflow: hidden !important;
+}
+.app.gameMode .topbar,
+.app.gameMode .topFixed,
+.app.gameMode .bottomDock,
+.app.gameMode .playArea,
+.app.gameMode .balls,
+.app.gameMode .actions {
+  touch-action: manipulation;
+}
+.app.gameMode .logWrap,
+.app.gameMode .turnLog {
+  touch-action: pan-y;
+}
+.app.gameMode .turnLog {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.app.gameMode .bottomDock {
+  bottom: 0;
+}
+input,
+button {
+  touch-action: manipulation;
+}
+
+
+/* v7.2 free polish: help + first guide */
+.guideOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  background: rgba(0,0,0,.54);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.guideCard {
+  width: min(92vw, 430px);
+  background: #0a5636;
+  border: 2px solid rgba(255,255,255,.38);
+  border-radius: 26px;
+  padding: 24px 18px 20px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.42);
+}
+.guideCardWide { width: min(94vw, 480px); }
+.guideTitle {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 950;
+  margin-bottom: 14px;
+}
+.guideText {
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.92);
+}
+.guideText p { margin: 9px 0; }
+.guideText hr {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,.24);
+  margin: 14px 0;
+}
+.guideSmall { font-size: 14px; opacity: .82; }
+.guideActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+.guideMainBtn,
+.guideSubBtn {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 12px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 900;
+}
+.guideMainBtn { background: #137d4b; }
+.guideSubBtn { background: rgba(255,255,255,.20); }
+.guideMainBtn.full {
+  width: 100%;
+  margin-top: 18px;
+}
+.helpList b { color: #fff; }
+
+@media (max-width: 430px) {
+  .guideCard {
+    padding: 22px 16px 18px;
+    border-radius: 24px;
+  }
+  .guideTitle { font-size: 28px; }
+  .guideText { font-size: 16px; }
+  .guideActions { grid-template-columns: 1fr; }
+  .guideMainBtn, .guideSubBtn { font-size: 16px; }
+}
+
+
+/* Pro v0.1: match history */
+.historyCard {
+  max-height: min(86dvh, 720px);
+  display: flex;
+  flex-direction: column;
+}
+.historyList {
+  min-height: 180px;
+  max-height: 58dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 3px;
+}
+.historyEmpty {
+  text-align: center;
+  opacity: .82;
+  padding: 34px 10px;
+  line-height: 1.5;
+}
+.historyItem {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 16px;
+  padding: 12px;
+  margin: 10px 0;
+}
+.historyTopLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.historyDate {
+  font-size: 13px;
+  opacity: .78;
+}
+.historyWinner {
+  font-size: 13px;
+  font-weight: 900;
+  color: #ffd54a;
+}
+.historyPlayers {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.historyScore {
+  font-size: 22px;
+  font-weight: 950;
+  margin: 6px 0 8px;
+}
+.historyMeta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  font-size: 13px;
+  opacity: .88;
+}
+.historyDeleteBtn {
+  margin-top: 10px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(178,58,48,.82);
+  color: #fff;
+  padding: 9px 12px;
+  font-size: 14px;
+  font-weight: 900;
+  width: 100%;
+}
+.historyActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+.historyNote {
+  text-align: center;
+  margin-top: 10px;
+}
+.saveNotice {
+  font-size: 14px;
+  opacity: .85;
+  margin: 10px 0 2px;
+}
+.savedMark {
+  color: #dfffe7;
+  font-weight: 900;
+}
+.modalBtnPro {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  background: #137d4b;
+  width: 100%;
+  margin-top: 8px;
+}
+@media (max-width: 430px) {
+  .historyPlayers { font-size: 16px; }
+  .historyScore { font-size: 20px; }
+  .historyMeta { font-size: 12px; }
+  .historyActions { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <button id="newGameBtn" class="smallBtn">New</button>
+      <h1>Rotation Scoreboard</h1>
+      <button id="historyBtn" class="smallBtn">履歴</button>
+    </header>
+
+    <section id="setup" class="setup">
+      <h2>Game setup</h2>
+
+      <div class="playerSetup">
+        <h3>Player 1</h3>
+        <div class="setupRow">
+          <label for="p1Input">Name:</label>
+          <input id="p1Input" value="貴章" placeholder="プレーヤー1">
+        </div>
+        <div class="setupRow">
+          <label for="p1GoalInput">Goal:</label>
+          <input id="p1GoalInput" type="number" value="150" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="playerSetup">
+        <h3>Player 2</h3>
+        <div class="setupRow">
+          <label for="p2Input">Name:</label>
+          <input id="p2Input" value="相手" placeholder="プレーヤー2">
+        </div>
+        <div class="setupRow">
+          <label for="p2GoalInput">Goal:</label>
+          <input id="p2GoalInput" type="number" value="120" inputmode="numeric">
+        </div>
+      </div>
+
+      <section class="firstPlayerBox">
+        <div class="firstPlayerTitle">先攻プレーヤーを選択</div>
+        <div class="firstPlayerButtons">
+          <button id="firstPlayer1Btn" class="firstPlayerBtn selected" type="button">Player 1</button>
+          <button id="firstPlayer2Btn" class="firstPlayerBtn" type="button">Player 2</button>
+        </div>
+      </section>
+
+      <button id="startBtn" class="startBtn">Start Game</button>
+      <div class="setupNote">Goal はそれぞれの持ち点です</div>
+      <div class="versionText">Pro prototype 0.1</div>
+    </section>
+
+    <section id="game" class="game hidden">
+      <section class="topFixed">
+      <section class="scoreboard">
+        <div class="playerPanel active" id="p1Panel">
+          <div class="name" id="p1Name">貴章</div>
+          <div class="score" id="p1Score">0</div>
+          <div class="stats">Goal:<span id="p1GoalView">150</span>　S:<span id="p1Safety">0</span>　F:<span id="p1Foul">0</span></div>
+        </div>
+        <div class="playerPanel" id="p2Panel">
+          <div class="name" id="p2Name">相手</div>
+          <div class="score" id="p2Score">0</div>
+          <div class="stats">Goal:<span id="p2GoalView">120</span>　S:<span id="p2Safety">0</span>　F:<span id="p2Foul">0</span></div>
+        </div>
+      </section>
+
+      <section class="status">
+        <div>Rack: <span id="rack">1</span></div>
+        <div>Inning: <span id="inning">1</span></div>
+        <div>Goal: <span id="goalView">150 / 120</span></div>
+      </section>
+      </section>
+
+      <section class="logWrap">
+        <div class="logHeader">
+          <span>Turn</span>
+          <span id="p1LogName">貴章</span>
+          <span id="p2LogName">相手</span>
+        </div>
+        <div id="turnLog" class="turnLog"></div>
+      </section>
+
+
+      <section class="bottomDock">
+      <section class="playArea">
+        <section class="balls" id="balls"></section>
+        <section id="nextRackBox" class="nextRackBox hidden">
+          <div id="rackResult" class="rackResult"></div>
+          <button id="nextRackBtn" class="nextRackBtn">次のラックへ</button>
+          <div class="nextRackHint">15個入りました。押すと次の入力は1段下に表示されます。</div>
+        </section>
+      </section>
+
+      <section class="actions">
+        <button id="safetyBtn" class="action safety"><span class="actionMain">セーフティ</span></button>
+        <button id="foulBtn" class="action foul"><span class="actionMain">ファール</span></button>
+        <button id="switchBtn" class="action switch"><span class="actionMain">プレーヤー交代</span></button>
+        <button id="undoBtn" class="action undo"><span class="actionMain">戻す</span></button>
+      </section>
+      </section>
+
+      <section id="summary" class="summary hidden"></section>
+    </section>
+
+
+    <section id="welcomeGuide" class="guideOverlay hidden">
+      <div class="guideCard">
+        <div class="guideTitle">ようこそ</div>
+        <div class="guideText">
+          <p><b>Rotation Scoreboard</b> はローテーション専用の無料スコアボードです。</p>
+          <p>上は得点、真ん中は履歴、下はボール入力と操作ボタンです。</p>
+          <p>画面は固定され、履歴エリアだけスクロールできます。</p>
+        </div>
+        <div class="guideActions">
+          <button id="welcomeDontShowBtn" class="guideSubBtn">次回から表示しない</button>
+          <button id="welcomeStartBtn" class="guideMainBtn">はじめる</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="helpGuide" class="guideOverlay hidden">
+      <div class="guideCard guideCardWide">
+        <div class="guideTitle">使い方</div>
+        <div class="guideText helpList">
+          <p><b>1.</b> プレーヤー名とGoalを入力します。</p>
+          <p><b>2.</b> 先攻プレーヤーを選びます。</p>
+          <p><b>3.</b> <b>Start Game</b> で開始します。</p>
+          <p><b>4.</b> 入ったボール番号をタップします。</p>
+          <p><b>5.</b> 必要に応じて <b>セーフティ / ファール / プレーヤー交代 / 戻す</b> を使います。</p>
+          <p><b>6.</b> 履歴は真ん中のエリアで確認します。</p>
+          <p><b>7.</b> <b>New</b> で新しい試合を始めます。</p>
+          <hr>
+          <p class="guideSmall">履歴保存・勝率・平均得点などは、将来の有料版機能として検討中です。</p>
+        </div>
+        <button id="helpCloseBtn" class="guideMainBtn full">閉じる</button>
+      </div>
+    </section>
+
+
+    <section id="historyGuide" class="guideOverlay hidden">
+      <div class="guideCard guideCardWide historyCard">
+        <div class="guideTitle">試合履歴</div>
+        <div id="historyList" class="historyList"></div>
+        <div class="historyActions">
+          <button id="historyClearBtn" class="guideSubBtn">全履歴削除</button>
+          <button id="historyCloseBtn" class="guideMainBtn">閉じる</button>
+        </div>
+        <p class="guideSmall historyNote">※この履歴はこの端末のブラウザ内に保存されます。</p>
+      </div>
+    </section>
+
+    <section id="confirmNewGame" class="confirmOverlay hidden">
+      <div class="confirmCard">
+        <div class="confirmTitle">New Game?</div>
+        <div class="confirmText">現在の試合を終了して<br>新しい試合を始めますか？</div>
+        <div class="confirmActions">
+          <button id="cancelNewGameBtn" class="modalBtnSecondary confirmCancel">キャンセル</button>
+          <button id="confirmNewGameBtn" class="modalBtnPrimary confirmDanger">New Game</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+let current = 1;
+let startingPlayer = 1;
+let goals = {1:150, 2:120};
+let rack = 1;
+let inning = 1;
+let scores = {1:0, 2:0};
+let rackScores = {1:0, 2:0};
+let safety = {1:0, 2:0};
+let fouls = {1:0, 2:0};
+let usedBalls = new Set();
+let rows = [];
+let history = [];
+let rackEnded = false;
+let foulLocked = false;
+let forceNewRow = false;
+let gameEnded = false;
+let currentGameSaved = false;
+
+const colors = {
+  1:"#f5d54a",2:"#2b62d9",3:"#c7322d",4:"#8b4bc1",5:"#f08b2f",
+  6:"#3a9b4b",7:"#8a4b20",8:"#111",9:"#f5d54a",10:"#2b62d9",
+  11:"#c7322d",12:"#8b4bc1",13:"#f08b2f",14:"#3a9b4b",15:"#8a4b20"
+};
+
+function $(id){ return document.getElementById(id); }
+
+function snapshot() {
+  return {
+    current, startingPlayer, goals:{...goals}, rack, inning,
+    scores:{...scores}, rackScores:{...rackScores}, safety:{...safety}, fouls:{...fouls},
+    usedBalls:[...usedBalls],
+    rows: JSON.parse(JSON.stringify(rows)),
+    rackEnded, foulLocked, forceNewRow, gameEnded, currentGameSaved
+  };
+}
+
+function restore(s) {
+  current=s.current; startingPlayer=s.startingPlayer || 1; goals={...s.goals}; rack=s.rack; inning=s.inning;
+  scores={...s.scores}; rackScores={...s.rackScores}; safety={...s.safety}; fouls={...s.fouls};
+  usedBalls=new Set(s.usedBalls);
+  rows=JSON.parse(JSON.stringify(s.rows));
+  rackEnded=s.rackEnded; foulLocked=s.foulLocked; forceNewRow=s.forceNewRow; gameEnded=!!s.gameEnded; currentGameSaved=!!s.currentGameSaved;
+}
+
+function playerName(n) { return n===1 ? $("p1Name").textContent : $("p2Name").textContent; }
+
+function currentTurnLabel() {
+  if (rows.length === 0) return "Break";
+  return String(inning);
+}
+
+function ensureCurrentRow() {
+  let last = rows[rows.length - 1];
+  if (forceNewRow || !last || last.inning !== inning || last.rack !== rack) {
+    last = { rack, inning, label: currentTurnLabel(), p1: [], p2: [] };
+    rows.push(last);
+    forceNewRow = false;
+  }
+  return last;
+}
+
+function addItemToCurrent(item) {
+  const row = ensureCurrentRow();
+  row[current === 1 ? "p1" : "p2"].push(item);
+}
+
+function ballHtml(n) {
+  const cls = (n <= 8 ? "solid" : "stripe") + (n === 8 ? " eight" : "");
+  return `<span class="event miniBall ${cls}" style="background:${colors[n]};"><span>${n}</span></span>`;
+}
+
+function symbolHtml(s) {
+  const cls = s === "S" ? "s" : "f";
+  const label = s === "S" ? "s" : s;
+  return `<span class="event sym ${cls}">${label}</span>`;
+}
+
+function renderLog() {
+  const el = $("turnLog");
+  el.innerHTML = "";
+  let lastRack = null;
+  rows.forEach((r, index) => {
+    if (r.rack !== lastRack) {
+      const divider = document.createElement("div");
+      divider.className = "rackDivider";
+      divider.textContent = `Rack ${r.rack}`;
+      el.appendChild(divider);
+      lastRack = r.rack;
+    }
+
+    const row = document.createElement("div");
+    row.className = "logRow" + (index === rows.length - 1 ? " activeRow" : "");
+    const p1Items = r.p1.map(item => typeof item === "number" ? ballHtml(item) : symbolHtml(item)).join("");
+    const p2Items = r.p2.map(item => typeof item === "number" ? ballHtml(item) : symbolHtml(item)).join("");
+    row.innerHTML = `
+      <div class="turnLabel">${r.label}</div>
+      <div class="logCell p1">${p1Items}</div>
+      <div class="logCell p2">${p2Items}</div>
+    `;
+    el.appendChild(row);
+  });
+  el.scrollTop = el.scrollHeight;
+}
+
+function renderBalls() {
+  const el = $("balls");
+  el.innerHTML = "";
+  el.classList.toggle("rackEnded", rackEnded);
+  el.classList.toggle("locked", foulLocked);
+  for (let i=1;i<=15;i++) {
+    const btn = document.createElement("button");
+    btn.className = "ball " + (i <= 8 ? "solid" : "stripe") + (i === 8 ? " eight" : "");
+    if (usedBalls.has(i)) btn.classList.add("used");
+    btn.style.background = colors[i];
+    btn.innerHTML = `<span>${i}</span>`;
+    btn.disabled = usedBalls.has(i) || rackEnded || foulLocked || gameEnded;
+    btn.onclick = () => pocketBall(i);
+    el.appendChild(btn);
+  }
+}
+
+function renderRackResult() {
+  const el = $("rackResult");
+  el.innerHTML = `
+    Rack ${rack} 終了<br>
+    ${playerName(1)}：+${rackScores[1]}点　${playerName(2)}：+${rackScores[2]}点<br>
+    <small>合計 ${playerName(1)}：${scores[1]}点 / ${playerName(2)}：${scores[2]}点</small>
+  `;
+}
+
+function updateButtons() {
+  $("safetyBtn").disabled = rackEnded || foulLocked || gameEnded;
+  $("foulBtn").disabled = rackEnded || foulLocked || gameEnded;
+  $("switchBtn").disabled = rackEnded || gameEnded;
+  $("undoBtn").disabled = history.length === 0;
+  $("nextRackBox").classList.toggle("hidden", !rackEnded);
+  if (rackEnded) renderRackResult();
+}
+
+function update() {
+  $("p1Score").textContent = scores[1];
+  $("p2Score").textContent = scores[2];
+  $("p1Safety").textContent = safety[1];
+  $("p2Safety").textContent = safety[2];
+  $("p1Foul").textContent = fouls[1];
+  $("p2Foul").textContent = fouls[2];
+  $("rack").textContent = rack;
+  $("inning").textContent = inning;
+  $("p1GoalView").textContent = goals[1];
+  $("p2GoalView").textContent = goals[2];
+  $("goalView").textContent = `${goals[1]} / ${goals[2]}`;
+  $("p1Panel").classList.toggle("active", current===1);
+  $("p2Panel").classList.toggle("active", current===2);
+  renderLog();
+  renderBalls();
+  checkWinner();
+  updateButtons();
+}
+
+function saveAndDo(fn) {
+  history.push(snapshot());
+  fn();
+  update();
+}
+
+function pocketBall(n) {
+  if (gameEnded || rackEnded || foulLocked || usedBalls.has(n)) return;
+  saveAndDo(() => {
+    scores[current] += n;
+    rackScores[current] += n;
+    usedBalls.add(n);
+    addItemToCurrent(n);
+    if (usedBalls.size === 15) {
+      rackEnded = true;
+      foulLocked = false;
+    }
+  });
+}
+
+function switchPlayer() {
+  if (gameEnded || rackEnded) return;
+  saveAndDo(() => {
+    // 交代だけでも、そのイニング行を空欄で残す
+    ensureCurrentRow();
+    current = current === 1 ? 2 : 1;
+    foulLocked = false;
+    if (current === 1) {
+      inning++;
+      forceNewRow = true;
+    }
+  });
+}
+
+function safetyEvent() {
+  if (gameEnded || rackEnded || foulLocked) return;
+  saveAndDo(() => {
+    safety[current]++;
+    addItemToCurrent("S");
+    foulLocked = true;
+  });
+}
+
+function foulEvent() {
+  if (gameEnded || rackEnded || foulLocked) return;
+  saveAndDo(() => {
+    fouls[current]++;
+    addItemToCurrent("F");
+    foulLocked = true;
+  });
+}
+
+function nextRack() {
+  if (gameEnded || !rackEnded) return;
+  saveAndDo(() => {
+    rack++;
+    usedBalls = new Set();
+    rackScores = {1:0, 2:0};
+    rackEnded = false;
+    foulLocked = false;
+    forceNewRow = true;
+  });
+}
+
+function undo() {
+  const s = history.pop();
+  if (!s) return;
+  restore(s);
+  update();
+}
+
+function startGame() {
+  document.querySelector(".app").classList.add("gameMode");
+  $("p1Name").textContent = $("p1Input").value || "Player 1";
+  $("p2Name").textContent = $("p2Input").value || "Player 2";
+  $("p1LogName").textContent = $("p1Name").textContent;
+  $("p2LogName").textContent = $("p2Name").textContent;
+  goals = {
+    1: Number($("p1GoalInput").value || 150),
+    2: Number($("p2GoalInput").value || 120)
+  };
+  current=startingPlayer; rack=1; inning=1;
+  scores={1:0,2:0}; rackScores={1:0,2:0}; safety={1:0,2:0}; fouls={1:0,2:0};
+  usedBalls = new Set(); rows=[]; history=[];
+  rackEnded=false; foulLocked=false; forceNewRow=false; gameEnded=false; currentGameSaved=false;
+  $("setup").classList.add("hidden");
+  $("game").classList.remove("hidden");
+  $("summary").classList.add("hidden");
+  update();
+}
+
+function newGame() {
+  document.querySelector(".app").classList.remove("gameMode");
+  gameEnded = false;
+  currentGameSaved = false;
+  rackEnded = false;
+  foulLocked = false;
+  $("summary").classList.add("hidden");
+  $("confirmNewGame").classList.add("hidden");
+  $("setup").classList.remove("hidden");
+  $("game").classList.add("hidden");
+}
+
+function hasActiveGame() {
+  return !$("game").classList.contains("hidden") && (history.length > 0 || rows.length > 0 || scores[1] > 0 || scores[2] > 0);
+}
+
+function requestNewGame() {
+  if (hasActiveGame()) {
+    $("confirmNewGame").classList.remove("hidden");
+  } else {
+    newGame();
+  }
+}
+
+function setStartingPlayer(n) {
+  startingPlayer = n;
+  $("firstPlayer1Btn").classList.toggle("selected", n === 1);
+  $("firstPlayer2Btn").classList.toggle("selected", n === 2);
+}
+
+function syncFirstPlayerLabels() {
+  $("firstPlayer1Btn").textContent = $("p1Input").value || "Player 1";
+  $("firstPlayer2Btn").textContent = $("p2Input").value || "Player 2";
+}
+
+function checkWinner() {
+  const winner = scores[1] >= goals[1] ? 1 : scores[2] >= goals[2] ? 2 : null;
+  const box = $("summary");
+  if (!winner) {
+    gameEnded = false;
+    box.classList.add("hidden");
+    return;
+  }
+  gameEnded = true;
+  box.classList.remove("hidden");
+  const loser = winner === 1 ? 2 : 1;
+  box.innerHTML = `
+    <div class="summaryCard">
+      <div class="gameSetTitle">Game Set!</div>
+      <div class="winnerName">${playerName(winner)} Win!</div>
+      <div class="finalScores">
+        <div class="finalLine"><span>${playerName(winner)}</span><span>${scores[winner]} / ${goals[winner]}</span></div>
+        <div class="finalLine"><span>${playerName(loser)}</span><span>${scores[loser]} / ${goals[loser]}</span></div>
+      </div>
+      <div class="finalMeta">
+        <div>Rack: ${rack}</div>
+        <div>Inning: ${inning}</div>
+        <div>${playerName(1)}<br>S:${safety[1]} F:${fouls[1]}</div>
+        <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
+      </div>
+      <button class="modalBtnPro" onclick="saveCurrentMatch()">${currentGameSaved ? "保存済み" : "履歴に保存"}</button>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存されています</span>' : 'Pro v0.1：この端末に試合結果を保存できます'}</div>
+      <button class="modalBtnPrimary" onclick="requestNewGame()">New Game</button>
+    </div>
+  `;
+}
+
+$("startBtn").onclick = startGame;
+$("newGameBtn").onclick = requestNewGame;
+$("historyBtn").onclick = openHistory;
+$("switchBtn").onclick = switchPlayer;
+$("safetyBtn").onclick = safetyEvent;
+$("foulBtn").onclick = foulEvent;
+$("undoBtn").onclick = undo;
+$("nextRackBtn").onclick = nextRack;
+$("cancelNewGameBtn").onclick = () => $("confirmNewGame").classList.add("hidden");
+$("confirmNewGameBtn").onclick = newGame;
+$("firstPlayer1Btn").onclick = () => setStartingPlayer(1);
+$("firstPlayer2Btn").onclick = () => setStartingPlayer(2);
+$("p1Input").addEventListener("input", syncFirstPlayerLabels);
+$("p2Input").addEventListener("input", syncFirstPlayerLabels);
+syncFirstPlayerLabels();
+
+  
+
+// Pro v0.1: local match history
+const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
+
+function getMatchHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(MATCH_HISTORY_KEY) || "[]");
+  } catch(e) {
+    return [];
+  }
+}
+
+function setMatchHistory(list) {
+  try {
+    localStorage.setItem(MATCH_HISTORY_KEY, JSON.stringify(list));
+  } catch(e) {}
+}
+
+function makeMatchRecord() {
+  const winner = scores[1] >= goals[1] ? 1 : scores[2] >= goals[2] ? 2 : null;
+  const now = new Date();
+  return {
+    id: String(now.getTime()),
+    savedAt: now.toISOString(),
+    savedAtText: now.toLocaleString("ja-JP", { dateStyle: "short", timeStyle: "short" }),
+    p1Name: playerName(1),
+    p2Name: playerName(2),
+    p1Goal: goals[1],
+    p2Goal: goals[2],
+    p1Score: scores[1],
+    p2Score: scores[2],
+    winner: winner ? playerName(winner) : "",
+    winnerNo: winner,
+    rack,
+    inning,
+    p1Safety: safety[1],
+    p2Safety: safety[2],
+    p1Foul: fouls[1],
+    p2Foul: fouls[2]
+  };
+}
+
+function saveCurrentMatch() {
+  if (!gameEnded || currentGameSaved) return;
+  const list = getMatchHistory();
+  list.unshift(makeMatchRecord());
+  setMatchHistory(list);
+  currentGameSaved = true;
+  checkWinner();
+}
+
+function openHistory() {
+  renderHistoryList();
+  $("historyGuide").classList.remove("hidden");
+}
+
+function closeHistory() {
+  $("historyGuide").classList.add("hidden");
+}
+
+function deleteHistoryItem(id) {
+  const list = getMatchHistory().filter(item => item.id !== id);
+  setMatchHistory(list);
+  renderHistoryList();
+}
+
+function clearHistory() {
+  if (!confirm("保存した試合履歴をすべて削除しますか？")) return;
+  setMatchHistory([]);
+  renderHistoryList();
+}
+
+function renderHistoryList() {
+  const el = $("historyList");
+  const list = getMatchHistory();
+  if (!list.length) {
+    el.innerHTML = '<div class="historyEmpty">まだ保存された試合はありません。<br>試合終了後に「履歴に保存」を押すと、ここに表示されます。</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(item => `
+    <div class="historyItem">
+      <div class="historyTopLine">
+        <div class="historyDate">${item.savedAtText || ""}</div>
+        <div class="historyWinner">Win：${item.winner || "-"}</div>
+      </div>
+      <div class="historyPlayers">${item.p1Name} vs ${item.p2Name}</div>
+      <div class="historyScore">${item.p1Score} - ${item.p2Score}</div>
+      <div class="historyMeta">
+        <div>Goal：${item.p1Goal} / ${item.p2Goal}</div>
+        <div>Rack：${item.rack}</div>
+        <div>Inning：${item.inning}</div>
+        <div>S：${item.p1Safety} / ${item.p2Safety}</div>
+        <div>F：${item.p1Foul} / ${item.p2Foul}</div>
+      </div>
+      <button class="historyDeleteBtn" onclick="deleteHistoryItem('${item.id}')">この履歴を削除</button>
+    </div>
+  `).join("");
+}
+
+$("historyCloseBtn").onclick = closeHistory;
+$("historyClearBtn").onclick = clearHistory;
+
+// v6.8: iPhone Safari zoom guard
+try {
+  document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+  }, { passive: false });
+
+  let __lastTouchEnd = 0;
+  document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - __lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    __lastTouchEnd = now;
+  }, { passive: false });
+} catch (e) {}
+
+
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+
+
+// v7.1: prevent iPhone page drag/bounce, allow only history area scroll
+(function () {
+  const isAllowedScroll = (target) => {
+    return target && target.closest && target.closest('#turnLog');
+  };
+
+  document.addEventListener('touchmove', function (e) {
+    if (!document.querySelector('.app')?.classList.contains('gameMode')) return;
+
+    if (!isAllowedScroll(e.target)) {
+      e.preventDefault();
+      return;
+    }
+
+    const scroller = document.getElementById('turnLog');
+    if (!scroller) {
+      e.preventDefault();
+      return;
+    }
+
+    const atTop = scroller.scrollTop <= 0;
+    const atBottom = Math.ceil(scroller.scrollTop + scroller.clientHeight) >= scroller.scrollHeight;
+
+    if ((atTop && e.touches[0].clientY > (window.__lastTouchY || e.touches[0].clientY)) ||
+        (atBottom && e.touches[0].clientY < (window.__lastTouchY || e.touches[0].clientY))) {
+      e.preventDefault();
+    }
+
+    window.__lastTouchY = e.touches[0].clientY;
+  }, { passive: false });
+
+  document.addEventListener('touchstart', function (e) {
+    window.__lastTouchY = e.touches && e.touches[0] ? e.touches[0].clientY : 0;
+  }, { passive: true });
+})();
+
+
+// v7.2: help page and first guide
+function openHelp() {
+  $("helpGuide").classList.remove("hidden");
+}
+function closeHelp() {
+  $("helpGuide").classList.add("hidden");
+}
+function closeWelcomeGuide(neverAgain=false) {
+  $("welcomeGuide").classList.add("hidden");
+  if (neverAgain) {
+    try { localStorage.setItem("rotationScoreboardWelcomeHidden", "1"); } catch(e) {}
+  }
+}
+function showWelcomeGuideIfNeeded() {
+  try {
+    if (localStorage.getItem("rotationScoreboardWelcomeHidden") === "1") return;
+  } catch(e) {}
+  $("welcomeGuide").classList.remove("hidden");
+}
+$("helpCloseBtn").onclick = closeHelp;
+$("welcomeStartBtn").onclick = () => closeWelcomeGuide(false);
+$("welcomeDontShowBtn").onclick = () => closeWelcomeGuide(true);
+window.addEventListener("load", () => {
+  setTimeout(showWelcomeGuideIfNeeded, 350);
+});
+
+</script>
+</body>
+</html>
