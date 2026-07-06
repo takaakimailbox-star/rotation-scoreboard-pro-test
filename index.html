@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v1.1: match history */
+/* Pro v1.2: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v1.1: stats summary */
+/* Pro v1.2: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v1.1: saved status is not button-like */
+/* Pro v1.2: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v1.1: opponent stats */
+/* Pro v1.2: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1016,7 +1016,7 @@ button {
 }
 
 
-/* Pro v1.1: show history from game set */
+/* Pro v1.2: show history from game set */
 .modalBtnHistory {
   border: 0;
   border-radius: 16px;
@@ -1034,7 +1034,7 @@ button {
 }
 
 
-/* Pro v1.1: organized history screen */
+/* Pro v1.2: organized history screen */
 .historyTitleRow {
   display: flex;
   align-items: center;
@@ -1169,7 +1169,7 @@ button {
 }
 
 
-/* Pro v1.1: history bottom overlap fix */
+/* Pro v1.2: history bottom overlap fix */
 .historyCard {
   height: min(88dvh, 740px);
   max-height: min(88dvh, 740px);
@@ -1235,7 +1235,7 @@ button {
 }
 
 
-/* Pro v1.1: full history content scroll fix */
+/* Pro v1.2: full history content scroll fix */
 .historyCard {
   height: min(88dvh, 740px) !important;
   max-height: min(88dvh, 740px) !important;
@@ -1300,7 +1300,7 @@ button {
 }
 
 
-/* Pro v1.1: reliable full history scroll */
+/* Pro v1.2: reliable full history scroll */
 .historyCard {
   height: min(86dvh, 720px) !important;
   max-height: min(86dvh, 720px) !important;
@@ -1369,7 +1369,7 @@ button {
 }
 
 
-/* Pro v1.1: setup validation and history scroll touch fix */
+/* Pro v1.2: setup validation and history scroll touch fix */
 .setupError {
   margin: 10px auto 8px;
   width: min(86vw, 520px);
@@ -1451,6 +1451,34 @@ button {
   }
 }
 
+
+/* Pro v1.2: goal validation fix and opponent spacing */
+.opponentList {
+  display: grid !important;
+  gap: 14px !important;
+  padding-top: 2px !important;
+}
+.opponentCard {
+  margin: 0 0 12px !important;
+}
+.opponentCard + .opponentCard {
+  margin-top: 14px !important;
+}
+.opponentTop {
+  padding-top: 2px;
+}
+@media (max-width: 430px) {
+  .opponentList {
+    gap: 16px !important;
+  }
+  .opponentCard {
+    margin-bottom: 14px !important;
+  }
+  .opponentCard + .opponentCard {
+    margin-top: 16px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1499,7 +1527,7 @@ button {
       <div id="setupError" class="setupError hidden"></div>
         <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 1.1</div>
+      <div class="versionText">Pro prototype 1.2</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1865,6 +1893,7 @@ function undo() {
 }
 
 
+
 function showSetupError(message) {
   const el = $("setupError");
   if (!el) {
@@ -1883,8 +1912,16 @@ function clearSetupError() {
   }
 }
 
-function getSetupNumber(id) {
-  const el = $(id);
+function findFirstEl(ids) {
+  for (const id of ids) {
+    const el = $(id);
+    if (el) return el;
+  }
+  return null;
+}
+
+function getSetupNumberFlexible(ids) {
+  const el = findFirstEl(ids);
   if (!el) return NaN;
   const raw = String(el.value || "").trim();
   if (!raw) return NaN;
@@ -1892,8 +1929,8 @@ function getSetupNumber(id) {
 }
 
 function validateGameSetup() {
-  const p1Goal = getSetupNumber("p1Goal");
-  const p2Goal = getSetupNumber("p2Goal");
+  const p1Goal = getSetupNumberFlexible(["p1Goal", "goal1", "player1Goal", "p1Score", "score1"]);
+  const p2Goal = getSetupNumberFlexible(["p2Goal", "goal2", "player2Goal", "p2Score", "score2"]);
 
   if (!Number.isFinite(p1Goal) || p1Goal <= 0) {
     showSetupError("Player 1 のGoalを設定してください");
@@ -1991,7 +2028,7 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v1.1：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v1.2：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnHistory" onclick="openHistory()">履歴をみる</button>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
@@ -2016,7 +2053,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v1.1: local match history
+// Pro v1.2: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -2254,7 +2291,7 @@ function renderHistoryList() {
 }
 
 
-["p1Goal", "p2Goal", "p1Name", "p2Name"].forEach(id => {
+["p1Goal", "p2Goal", "goal1", "goal2", "player1Goal", "player2Goal", "p1Score", "p2Score", "score1", "score2", "p1Name", "p2Name", "player1Name", "player2Name"].forEach(id => {
   const el = $(id);
   if (el) {
     el.addEventListener("input", clearSetupError);
