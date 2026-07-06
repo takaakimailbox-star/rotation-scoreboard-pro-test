@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v0.3: match history */
+/* Pro v0.5: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v0.3: stats summary */
+/* Pro v0.5: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -906,6 +906,112 @@ button {
   }
   .statValue {
     font-size: 20px;
+  }
+}
+
+
+/* Pro v0.5: saved status is not button-like */
+.savedStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 18px;
+  padding: 13px 14px;
+  margin-top: 12px;
+  color: rgba(255,255,255,.94);
+  text-align: left;
+}
+.savedStatusIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #ffd54a;
+  color: #064026;
+  font-size: 23px;
+  font-weight: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.savedStatus strong {
+  font-size: 18px;
+  line-height: 1.15;
+}
+.savedStatus span {
+  font-size: 13px;
+  opacity: .82;
+}
+
+
+/* Pro v0.5: opponent stats */
+.opponentStats {
+  margin: 0 0 12px;
+}
+.opponentTitle {
+  font-size: 17px;
+  font-weight: 950;
+  margin: 8px 0 8px;
+  color: #fff;
+}
+.opponentList {
+  display: grid;
+  gap: 8px;
+}
+.opponentCard {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 15px;
+  padding: 10px 11px;
+}
+.opponentTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.opponentName {
+  font-size: 17px;
+  font-weight: 950;
+}
+.opponentWinRate {
+  font-size: 18px;
+  font-weight: 950;
+  color: #ffd54a;
+}
+.opponentMeta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  font-size: 12px;
+  text-align: center;
+}
+.opponentMeta div {
+  background: rgba(0,0,0,.16);
+  border-radius: 10px;
+  padding: 7px 4px;
+}
+.opponentMeta strong {
+  display: block;
+  font-size: 15px;
+  color: #fff;
+  margin-top: 2px;
+}
+.opponentNote {
+  font-size: 12px;
+  opacity: .74;
+  margin-top: 8px;
+  line-height: 1.35;
+}
+@media (max-width: 430px) {
+  .opponentName { font-size: 16px; }
+  .opponentWinRate { font-size: 17px; }
+  .opponentMeta {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -956,7 +1062,7 @@ button {
 
       <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 0.3</div>
+      <div class="versionText">Pro prototype 0.5</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1051,6 +1157,7 @@ button {
       <div class="guideCard guideCardWide historyCard">
         <div class="guideTitle">試合履歴</div>
         <div id="historyStats" class="historyStats"></div>
+        <div id="opponentStats" class="opponentStats"></div>
         <div id="historyList" class="historyList"></div>
         <div class="historyActions">
           <button id="historyClearBtn" class="guideSubBtn">全履歴削除</button>
@@ -1383,8 +1490,8 @@ function checkWinner() {
         <div>${playerName(1)}<br>S:${safety[1]} F:${fouls[1]}</div>
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
-      <button class="modalBtnPro" onclick="saveCurrentMatch()">${currentGameSaved ? "保存済み" : "履歴に保存"}</button>
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.3：試合結果をこの端末の履歴に保存できます'}</div>
+      ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v0.5：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
   `;
@@ -1408,7 +1515,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v0.3: local match history
+// Pro v0.5: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -1533,14 +1640,87 @@ function renderHistoryStats(list) {
       <div class="statLabel">F平均</div>
       <div class="statValue">${stats.avgFoul}</div>
     </div>
-    <div class="historyStatsNote">※勝率と平均得点はPlayer 1側を基準に集計しています。S/F平均は1試合あたりの合計回数です。</div>
+    <div class="historyStatsNote">※全体成績はPlayer 1側を基準に集計しています。S/F平均は1試合あたりの合計回数です。</div>
   `;
 }
+
+
+function calcOpponentStats(list) {
+  const groups = {};
+  list.forEach(item => {
+    const opponent = item.p2Name || "相手";
+    if (!groups[opponent]) {
+      groups[opponent] = {
+        name: opponent,
+        total: 0,
+        wins: 0,
+        totalScore: 0,
+        totalInning: 0,
+        totalSafety: 0,
+        totalFoul: 0
+      };
+    }
+    const g = groups[opponent];
+    g.total += 1;
+    if (item.winnerNo === 1 || item.winner === item.p1Name) g.wins += 1;
+    g.totalScore += Number(item.p1Score || 0);
+    g.totalInning += Number(item.inning || 0);
+    g.totalSafety += Number(item.p1Safety || 0) + Number(item.p2Safety || 0);
+    g.totalFoul += Number(item.p1Foul || 0) + Number(item.p2Foul || 0);
+  });
+
+  return Object.values(groups)
+    .map(g => ({
+      ...g,
+      winRate: g.total ? Math.round((g.wins / g.total) * 100) : 0,
+      avgScore: g.total ? (g.totalScore / g.total).toFixed(1) : "0.0",
+      avgInning: g.total ? (g.totalInning / g.total).toFixed(1) : "0.0",
+      avgSafety: g.total ? (g.totalSafety / g.total).toFixed(1) : "0.0",
+      avgFoul: g.total ? (g.totalFoul / g.total).toFixed(1) : "0.0"
+    }))
+    .sort((a, b) => b.total - a.total || b.winRate - a.winRate || a.name.localeCompare(b.name, "ja"));
+}
+
+function renderOpponentStats(list) {
+  const el = $("opponentStats");
+  if (!el) return;
+
+  const stats = calcOpponentStats(list);
+  if (!stats.length) {
+    el.innerHTML = "";
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="opponentTitle">対戦相手別成績</div>
+    <div class="opponentList">
+      ${stats.map(item => `
+        <div class="opponentCard">
+          <div class="opponentTop">
+            <div class="opponentName">${item.name}</div>
+            <div class="opponentWinRate">${item.winRate}%</div>
+          </div>
+          <div class="opponentMeta">
+            <div>試合<strong>${item.total}</strong></div>
+            <div>勝敗<strong>${item.wins}勝${item.total - item.wins}敗</strong></div>
+            <div>平均得点<strong>${item.avgScore}</strong></div>
+            <div>平均イニング<strong>${item.avgInning}</strong></div>
+            <div>S平均<strong>${item.avgSafety}</strong></div>
+            <div>F平均<strong>${item.avgFoul}</strong></div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="opponentNote">※Player 1から見た対戦相手別成績です。同じ名前の相手ごとに集計します。</div>
+  `;
+}
+
 
 function renderHistoryList() {
   const el = $("historyList");
   const list = getMatchHistory();
   renderHistoryStats(list);
+  renderOpponentStats(list);
 
   if (!list.length) {
     el.innerHTML = '<div class="historyEmpty">まだ保存された試合はありません。<br>試合終了後に「履歴に保存」を押すと、ここに表示されます。</div>';
