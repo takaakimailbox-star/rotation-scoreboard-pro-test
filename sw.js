@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v1-5-player-delete';
+const CACHE_NAME = 'rotation-scoreboard-pro-v1-6-history-open-fix';
 const ASSETS = [
   './',
   './index.html',

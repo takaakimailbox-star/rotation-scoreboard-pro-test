@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v1.5: match history */
+/* Pro v1.6: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v1.5: stats summary */
+/* Pro v1.6: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v1.5: saved status is not button-like */
+/* Pro v1.6: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v1.5: opponent stats */
+/* Pro v1.6: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1016,7 +1016,7 @@ button {
 }
 
 
-/* Pro v1.5: show history from game set */
+/* Pro v1.6: show history from game set */
 .modalBtnHistory {
   border: 0;
   border-radius: 16px;
@@ -1034,7 +1034,7 @@ button {
 }
 
 
-/* Pro v1.5: organized history screen */
+/* Pro v1.6: organized history screen */
 .historyTitleRow {
   display: flex;
   align-items: center;
@@ -1169,7 +1169,7 @@ button {
 }
 
 
-/* Pro v1.5: history bottom overlap fix */
+/* Pro v1.6: history bottom overlap fix */
 .historyCard {
   height: min(88dvh, 740px);
   max-height: min(88dvh, 740px);
@@ -1235,7 +1235,7 @@ button {
 }
 
 
-/* Pro v1.5: full history content scroll fix */
+/* Pro v1.6: full history content scroll fix */
 .historyCard {
   height: min(88dvh, 740px) !important;
   max-height: min(88dvh, 740px) !important;
@@ -1300,7 +1300,7 @@ button {
 }
 
 
-/* Pro v1.5: reliable full history scroll */
+/* Pro v1.6: reliable full history scroll */
 .historyCard {
   height: min(86dvh, 720px) !important;
   max-height: min(86dvh, 720px) !important;
@@ -1369,7 +1369,7 @@ button {
 }
 
 
-/* Pro v1.5: setup validation and history scroll touch fix */
+/* Pro v1.6: setup validation and history scroll touch fix */
 .setupError {
   margin: 10px auto 8px;
   width: min(86vw, 520px);
@@ -1452,7 +1452,7 @@ button {
 }
 
 
-/* Pro v1.5: goal validation fix and opponent spacing */
+/* Pro v1.6: goal validation fix and opponent spacing */
 .opponentList {
   display: grid !important;
   gap: 14px !important;
@@ -1480,7 +1480,7 @@ button {
 }
 
 
-/* Pro v1.5: correct goal input IDs and opponent card spacing */
+/* Pro v1.6: correct goal input IDs and opponent card spacing */
 .opponentList {
   gap: 18px !important;
 }
@@ -1492,7 +1492,7 @@ button {
 }
 
 
-/* Pro v1.5: player-based stats */
+/* Pro v1.6: player-based stats */
 .opponentList {
   display: grid !important;
   gap: 16px !important;
@@ -1505,7 +1505,7 @@ button {
 }
 
 
-/* Pro v1.5: delete histories by player */
+/* Pro v1.6: delete histories by player */
 .playerHistoryDeleteBtn {
   width: 100%;
   margin-top: 10px;
@@ -1519,6 +1519,63 @@ button {
 }
 .playerHistoryDeleteBtn:active {
   transform: translateY(1px);
+}
+
+
+/* Pro v1.6: History opened from Game Set scroll fix */
+#historyGuide,
+.historyGuide {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+#historyGuide .historyCard,
+.historyGuide .historyCard {
+  height: min(84dvh, 700px) !important;
+  max-height: min(84dvh, 700px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
+  display: block !important;
+  padding-bottom: 26px !important;
+}
+#historyGuide .historyScrollableBody,
+.historyGuide .historyScrollableBody,
+#historyGuide .historySection,
+.historyGuide .historySection,
+#historyGuide .historySectionLast,
+.historyGuide .historySectionLast,
+#historyGuide .historyList,
+.historyGuide .historyList,
+#historyGuide .opponentList,
+.historyGuide .opponentList {
+  height: auto !important;
+  max-height: none !important;
+  min-height: auto !important;
+  overflow: visible !important;
+  display: block !important;
+}
+#historyGuide .historyTitleRow,
+.historyGuide .historyTitleRow {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 40 !important;
+  background: #0a5636 !important;
+}
+#historyGuide .historyActions,
+.historyGuide .historyActions,
+#historyGuide .historyNote,
+.historyGuide .historyNote {
+  position: static !important;
+  background: transparent !important;
+}
+@media (max-width: 430px) {
+  #historyGuide .historyCard,
+  .historyGuide .historyCard {
+    height: min(82dvh, 660px) !important;
+    max-height: min(82dvh, 660px) !important;
+  }
 }
 
 </style>
@@ -1569,7 +1626,7 @@ button {
       <div id="setupError" class="setupError hidden"></div>
         <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 1.5</div>
+      <div class="versionText">Pro prototype 1.6</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -2064,7 +2121,7 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v1.5：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v1.6：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnHistory" onclick="openHistory()">履歴をみる</button>
       <button class="modalBtnPrimary" onclick="requestNewGame()">新しい試合を設定</button>
     </div>
@@ -2089,7 +2146,7 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v1.5: local match history
+// Pro v1.6: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -2140,17 +2197,28 @@ function saveCurrentMatch() {
 }
 
 function openHistory() {
+  const gameOver = $("gameOverModal");
+  if (gameOver) gameOver.classList.add("hidden");
+
   renderHistoryList();
+
   const guide = $("historyGuide");
   const card = guide ? guide.querySelector(".historyCard") : null;
+
   if (guide) guide.classList.remove("hidden");
+
   requestAnimationFrame(() => {
-    if (card) card.scrollTop = 0;
+    if (card) {
+      card.scrollTop = 0;
+      card.style.overflowY = "auto";
+      card.style.webkitOverflowScrolling = "touch";
+    }
   });
 }
 
 function closeHistory() {
-  $("historyGuide").classList.add("hidden");
+  const guide = $("historyGuide");
+  if (guide) guide.classList.add("hidden");
 }
 
 function deleteHistoryItem(id) {
