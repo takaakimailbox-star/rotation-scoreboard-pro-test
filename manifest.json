@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro prototype with fixed history modal scrolling.",
+  "description": "Rotation billiards scoreboard Pro prototype with full-screen history scroll.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
