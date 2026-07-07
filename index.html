@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v1.9: match history */
+/* Pro v2.0: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v1.9: stats summary */
+/* Pro v2.0: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v1.9: saved status is not button-like */
+/* Pro v2.0: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v1.9: opponent stats */
+/* Pro v2.0: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1016,7 +1016,7 @@ button {
 }
 
 
-/* Pro v1.9: show history from game set */
+/* Pro v2.0: show history from game set */
 .modalBtnHistory {
   border: 0;
   border-radius: 16px;
@@ -1034,7 +1034,7 @@ button {
 }
 
 
-/* Pro v1.9: organized history screen */
+/* Pro v2.0: organized history screen */
 .historyTitleRow {
   display: flex;
   align-items: center;
@@ -1169,7 +1169,7 @@ button {
 }
 
 
-/* Pro v1.9: history bottom overlap fix */
+/* Pro v2.0: history bottom overlap fix */
 .historyCard {
   height: min(88dvh, 740px);
   max-height: min(88dvh, 740px);
@@ -1235,7 +1235,7 @@ button {
 }
 
 
-/* Pro v1.9: full history content scroll fix */
+/* Pro v2.0: full history content scroll fix */
 .historyCard {
   height: min(88dvh, 740px) !important;
   max-height: min(88dvh, 740px) !important;
@@ -1300,7 +1300,7 @@ button {
 }
 
 
-/* Pro v1.9: reliable full history scroll */
+/* Pro v2.0: reliable full history scroll */
 .historyCard {
   height: min(86dvh, 720px) !important;
   max-height: min(86dvh, 720px) !important;
@@ -1369,7 +1369,7 @@ button {
 }
 
 
-/* Pro v1.9: setup validation and history scroll touch fix */
+/* Pro v2.0: setup validation and history scroll touch fix */
 .setupError {
   margin: 10px auto 8px;
   width: min(86vw, 520px);
@@ -1452,7 +1452,7 @@ button {
 }
 
 
-/* Pro v1.9: goal validation fix and opponent spacing */
+/* Pro v2.0: goal validation fix and opponent spacing */
 .opponentList {
   display: grid !important;
   gap: 14px !important;
@@ -1480,7 +1480,7 @@ button {
 }
 
 
-/* Pro v1.9: correct goal input IDs and opponent card spacing */
+/* Pro v2.0: correct goal input IDs and opponent card spacing */
 .opponentList {
   gap: 18px !important;
 }
@@ -1492,7 +1492,7 @@ button {
 }
 
 
-/* Pro v1.9: player-based stats */
+/* Pro v2.0: player-based stats */
 .opponentList {
   display: grid !important;
   gap: 16px !important;
@@ -1505,7 +1505,7 @@ button {
 }
 
 
-/* Pro v1.9: delete histories by player */
+/* Pro v2.0: delete histories by player */
 .playerHistoryDeleteBtn {
   width: 100%;
   margin-top: 10px;
@@ -1522,7 +1522,7 @@ button {
 }
 
 
-/* Pro v1.9: History opened from Game Set scroll fix */
+/* Pro v2.0: History opened from Game Set scroll fix */
 #historyGuide,
 .historyGuide {
   overflow: hidden !important;
@@ -1579,7 +1579,7 @@ button {
 }
 
 
-/* Pro v1.9: history as full-screen scroll page */
+/* Pro v2.0: history as full-screen scroll page */
 #historyGuide,
 .historyGuide {
   position: fixed !important;
@@ -1653,7 +1653,7 @@ button {
 }
 
 
-/* Pro v1.9: history as a completely separate page */
+/* Pro v2.0: history as a completely separate page */
 body.historyPageMode {
   overflow: hidden !important;
   height: 100dvh !important;
@@ -1741,7 +1741,7 @@ body.historyPageMode #historyGuide {
 }
 
 
-/* Pro v1.9: hide history during game and game-set button rename */
+/* Pro v2.0: hide history during game and game-set button rename */
 body.gamePlaying #historyBtn,
 body.gamePlaying .historyTopButton,
 body.gamePlaying button[onclick="openHistory()"].topBtn,
@@ -1775,6 +1775,132 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
   transform: translateY(1px);
 }
 
+
+/* Pro v2.0: player management */
+.playerManagerBtn {
+  display: block;
+  width: min(86vw, 520px);
+  margin: 12px auto 12px;
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+}
+.playerManagerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483200;
+  background: rgba(0,0,0,.62);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: max(18px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
+}
+.playerManagerOverlay.hidden {
+  display: none;
+}
+.playerManagerCard {
+  width: min(92vw, 520px);
+  margin: 0 auto;
+  border-radius: 28px;
+  border: 3px solid rgba(159,211,180,.75);
+  background: #0a5636;
+  color: #fff;
+  padding: 22px 18px 20px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.35);
+}
+.playerManagerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.playerManagerTitle {
+  font-size: 30px;
+  font-weight: 950;
+}
+.playerAddBox {
+  display: grid;
+  grid-template-columns: 1fr 92px;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.playerAddBox input {
+  min-width: 0;
+  border: 2px solid rgba(255,255,255,.68);
+  border-radius: 13px;
+  padding: 11px 12px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+}
+.playerAddBox button {
+  border: 0;
+  border-radius: 13px;
+  background: #198754;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 950;
+}
+.playerManagerList {
+  display: grid;
+  gap: 10px;
+}
+.playerRow {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 16px;
+  padding: 10px;
+}
+.playerRowMain {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.playerRowName {
+  font-size: 19px;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+.playerRowMeta {
+  font-size: 12px;
+  opacity: .75;
+  margin-top: 4px;
+}
+.playerRowActions {
+  display: flex;
+  gap: 7px;
+  margin-top: 9px;
+}
+.playerMiniBtn {
+  border: 0;
+  border-radius: 11px;
+  padding: 8px 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  background: rgba(255,255,255,.16);
+}
+.playerMiniBtn.danger {
+  background: rgba(178,58,48,.86);
+}
+.playerManagerNote {
+  margin-top: 13px;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: .78;
+}
+.playerEmpty {
+  text-align: center;
+  opacity: .75;
+  padding: 18px 6px;
+}
+
 </style>
 </head>
 <body>
@@ -1792,7 +1918,7 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
         <h3>Player 1</h3>
         <div class="setupRow">
           <label for="p1Input">Name:</label>
-          <input id="p1Input" value="貴章" placeholder="プレーヤー1">
+          <input id="p1Input" value="貴章" placeholder="プレーヤー1" list="playerNameList">
         </div>
         <div class="setupRow">
           <label for="p1GoalInput">Goal:</label>
@@ -1804,13 +1930,16 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
         <h3>Player 2</h3>
         <div class="setupRow">
           <label for="p2Input">Name:</label>
-          <input id="p2Input" value="相手" placeholder="プレーヤー2">
+          <input id="p2Input" value="相手" placeholder="プレーヤー2" list="playerNameList">
         </div>
         <div class="setupRow">
           <label for="p2GoalInput">Goal:</label>
           <input id="p2GoalInput" type="number" value="120" inputmode="numeric">
         </div>
       </div>
+
+      <datalist id="playerNameList"></datalist>
+      <button id="playerManagerBtn" class="playerManagerBtn" type="button">プレーヤー管理</button>
 
       <section class="firstPlayerBox">
         <div class="firstPlayerTitle">先攻プレーヤーを選択</div>
@@ -1823,7 +1952,7 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
       <div id="setupError" class="setupError hidden"></div>
         <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 1.9</div>
+      <div class="versionText">Pro prototype 2.0</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -1945,6 +2074,22 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
       </div>
     </section>
 
+
+    <section id="playerManager" class="playerManagerOverlay hidden">
+      <div class="playerManagerCard">
+        <div class="playerManagerHeader">
+          <div class="playerManagerTitle">プレーヤー管理</div>
+          <button id="playerManagerCloseBtn" class="historyTopCloseBtn" type="button">閉じる</button>
+        </div>
+        <div class="playerAddBox">
+          <input id="playerAddInput" placeholder="名前を入力">
+          <button id="playerAddBtn" type="button">追加</button>
+        </div>
+        <div id="playerManagerList" class="playerManagerList"></div>
+        <div class="playerManagerNote">※新しく試合を始めると、入力した名前は自動で登録されます。名前変更後も、登録済みIDの履歴は同じ人として集計します。</div>
+      </div>
+    </section>
+
     <section id="confirmNewGame" class="confirmOverlay hidden">
       <div class="confirmCard">
         <div class="confirmTitle">新しい試合を設定</div>
@@ -1975,6 +2120,7 @@ let foulLocked = false;
 let forceNewRow = false;
 let gameEnded = false;
 let currentGameSaved = false;
+let currentPlayerIds = {1:null, 2:null};
 
 const colors = {
   1:"#f5d54a",2:"#2b62d9",3:"#c7322d",4:"#8b4bc1",5:"#f08b2f",
@@ -2238,6 +2384,7 @@ function validateGameSetup() {
 function startGame() {
   if (!validateGameSetup()) return;
   document.body.classList.add("gamePlaying");
+  attachPlayerIdsFromInputs();
 
   document.querySelector(".app").classList.add("gameMode");
   $("p1Name").textContent = $("p1Input").value || "Player 1";
@@ -2320,7 +2467,7 @@ function checkWinner() {
         <div>${playerName(2)}<br>S:${safety[2]} F:${fouls[2]}</div>
       </div>
       ${currentGameSaved ? `<div class="savedStatus"><div class="savedStatusIcon">✓</div><div><strong>履歴に保存済み</strong><br><span>この試合は保存されています</span></div></div>` : `<button class="modalBtnPro" onclick="saveCurrentMatch()">履歴に保存</button>`}
-      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v1.9：試合結果をこの端末の履歴に保存できます'}</div>
+      <div class="saveNotice">${currentGameSaved ? '<span class="savedMark">この試合は履歴に保存済みです</span>' : 'Pro v2.0：試合結果をこの端末の履歴に保存できます'}</div>
       <button class="modalBtnContinue" onclick="continueSameSettings()">同じ設定で続ける</button>
       <button class="modalBtnTitle" onclick="backToTitleFromGameSet()">タイトルに戻る</button>
     </div>
@@ -2330,6 +2477,15 @@ function checkWinner() {
 $("startBtn").onclick = startGame;
 $("newGameBtn").onclick = requestNewGame;
 $("historyBtn").onclick = openHistory;
+
+$("playerManagerBtn").onclick = openPlayerManager;
+$("playerManagerCloseBtn").onclick = closePlayerManager;
+$("playerAddBtn").onclick = addPlayerFromManager;
+$("playerAddInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addPlayerFromManager();
+});
+refreshPlayerNameList();
+
 $("switchBtn").onclick = switchPlayer;
 $("safetyBtn").onclick = safetyEvent;
 $("foulBtn").onclick = foulEvent;
@@ -2345,7 +2501,156 @@ syncFirstPlayerLabels();
 
   
 
-// Pro v1.9: local match history
+
+// Pro v2.0: registered player management
+const PLAYERS_KEY = "rotationScoreboardProPlayers";
+
+function normalizePlayerName(name) {
+  return String(name || "名前なし").trim().replace(/\s+/g, " ") || "名前なし";
+}
+
+function getPlayers() {
+  try {
+    const list = JSON.parse(localStorage.getItem(PLAYERS_KEY) || "[]");
+    return Array.isArray(list) ? list : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function setPlayers(list) {
+  try {
+    localStorage.setItem(PLAYERS_KEY, JSON.stringify(list));
+  } catch(e) {}
+}
+
+function findPlayerByName(name) {
+  const n = normalizePlayerName(name);
+  return getPlayers().find(p => normalizePlayerName(p.name) === n) || null;
+}
+
+function ensurePlayer(name) {
+  const n = normalizePlayerName(name);
+  let list = getPlayers();
+  let found = list.find(p => normalizePlayerName(p.name) === n);
+  if (found) return found;
+  found = {
+    id: "pl_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8),
+    name: n,
+    createdAt: new Date().toISOString()
+  };
+  list.push(found);
+  list.sort((a,b) => normalizePlayerName(a.name).localeCompare(normalizePlayerName(b.name), "ja"));
+  setPlayers(list);
+  refreshPlayerNameList();
+  return found;
+}
+
+function playerDisplayNameById(id, fallback) {
+  if (id) {
+    const p = getPlayers().find(item => item.id === id);
+    if (p) return p.name;
+  }
+  return normalizePlayerName(fallback);
+}
+
+function refreshPlayerNameList() {
+  const el = $("playerNameList");
+  if (!el) return;
+  const players = getPlayers();
+  el.innerHTML = players.map(p => `<option value="${escapeHtml(p.name)}"></option>`).join("");
+}
+
+function openPlayerManager() {
+  refreshPlayerManager();
+  $("playerManager").classList.remove("hidden");
+}
+
+function closePlayerManager() {
+  $("playerManager").classList.add("hidden");
+}
+
+function addPlayerFromManager() {
+  const input = $("playerAddInput");
+  const name = normalizePlayerName(input ? input.value : "");
+  if (!name || name === "名前なし") return;
+  ensurePlayer(name);
+  if (input) input.value = "";
+  refreshPlayerManager();
+}
+
+function renamePlayer(playerId) {
+  const list = getPlayers();
+  const p = list.find(item => item.id === playerId);
+  if (!p) return;
+  const nextName = normalizePlayerName(prompt("新しい名前を入力してください", p.name));
+  if (!nextName || nextName === "名前なし") return;
+  const duplicate = list.find(item => item.id !== playerId && normalizePlayerName(item.name) === nextName);
+  if (duplicate) {
+    alert("同じ名前のプレーヤーがすでに登録されています");
+    return;
+  }
+  p.name = nextName;
+  setPlayers(list);
+  refreshPlayerNameList();
+  refreshPlayerManager();
+  renderHistoryList();
+}
+
+function deleteRegisteredPlayer(playerId) {
+  const list = getPlayers();
+  const p = list.find(item => item.id === playerId);
+  if (!p) return;
+  const ok = confirm(`${p.name} をプレーヤー登録から削除しますか？\n試合履歴は削除されません。`);
+  if (!ok) return;
+  setPlayers(list.filter(item => item.id !== playerId));
+  refreshPlayerNameList();
+  refreshPlayerManager();
+  renderHistoryList();
+}
+
+function refreshPlayerManager() {
+  const el = $("playerManagerList");
+  if (!el) return;
+  const players = getPlayers();
+  if (!players.length) {
+    el.innerHTML = `<div class="playerEmpty">登録済みプレーヤーはまだありません</div>`;
+    return;
+  }
+
+  const historyList = getMatchHistory();
+  el.innerHTML = players.map(p => {
+    const count = historyList.filter(item =>
+      item.p1PlayerId === p.id || item.p2PlayerId === p.id ||
+      (!item.p1PlayerId && normalizePlayerName(item.p1Name) === normalizePlayerName(p.name)) ||
+      (!item.p2PlayerId && normalizePlayerName(item.p2Name) === normalizePlayerName(p.name))
+    ).length;
+
+    return `
+      <div class="playerRow">
+        <div class="playerRowMain">
+          <div>
+            <div class="playerRowName">${escapeHtml(p.name)}</div>
+            <div class="playerRowMeta">履歴 ${count}件</div>
+          </div>
+        </div>
+        <div class="playerRowActions">
+          <button class="playerMiniBtn" onclick="renamePlayer('${p.id}')">名前変更</button>
+          <button class="playerMiniBtn danger" onclick="deleteRegisteredPlayer('${p.id}')">登録削除</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function attachPlayerIdsFromInputs() {
+  const p1 = ensurePlayer($("p1Input").value || "Player 1");
+  const p2 = ensurePlayer($("p2Input").value || "Player 2");
+  currentPlayerIds = {1:p1.id, 2:p2.id};
+}
+
+
+// Pro v2.0: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -2371,6 +2676,8 @@ function makeMatchRecord() {
     savedAtText: now.toLocaleString("ja-JP", { dateStyle: "short", timeStyle: "short" }),
     p1Name: playerName(1),
     p2Name: playerName(2),
+    p1PlayerId: currentPlayerIds[1],
+    p2PlayerId: currentPlayerIds[2],
     p1Goal: goals[1],
     p2Goal: goals[2],
     p1Score: scores[1],
@@ -2529,14 +2836,21 @@ function normalizePlayerName(name) {
   return String(name || "名前なし").trim().replace(/\s+/g, " ") || "名前なし";
 }
 
+
+function playerStatKey(id, name) {
+  return id ? "id:" + id : "name:" + normalizePlayerName(name);
+}
+
 function calcPlayerStats(list) {
   const groups = {};
 
-  function ensure(name) {
-    const key = normalizePlayerName(name);
+  function ensure(id, name) {
+    const key = playerStatKey(id, name);
     if (!groups[key]) {
       groups[key] = {
-        name: key,
+        key,
+        id: id || null,
+        name: playerDisplayNameById(id, name),
         total: 0,
         wins: 0,
         totalScore: 0,
@@ -2544,12 +2858,17 @@ function calcPlayerStats(list) {
         totalSafety: 0,
         totalFoul: 0
       };
+    } else {
+      groups[key].name = playerDisplayNameById(id, groups[key].name);
     }
     return groups[key];
   }
 
   list.forEach(item => {
-    const p1 = ensure(item.p1Name || "Player 1");
+    const p1Id = item.p1PlayerId || (findPlayerByName(item.p1Name) ? findPlayerByName(item.p1Name).id : null);
+    const p2Id = item.p2PlayerId || (findPlayerByName(item.p2Name) ? findPlayerByName(item.p2Name).id : null);
+
+    const p1 = ensure(p1Id, item.p1Name || "Player 1");
     p1.total += 1;
     if (item.winnerNo === 1 || item.winner === item.p1Name) p1.wins += 1;
     p1.totalScore += Number(item.p1Score || 0);
@@ -2557,7 +2876,7 @@ function calcPlayerStats(list) {
     p1.totalSafety += Number(item.p1Safety || 0);
     p1.totalFoul += Number(item.p1Foul || 0);
 
-    const p2 = ensure(item.p2Name || "Player 2");
+    const p2 = ensure(p2Id, item.p2Name || "Player 2");
     p2.total += 1;
     if (item.winnerNo === 2 || item.winner === item.p2Name) p2.wins += 1;
     p2.totalScore += Number(item.p2Score || 0);
@@ -2588,23 +2907,31 @@ function escapeHtml(value) {
   }[ch]));
 }
 
-function deletePlayerHistory(playerName) {
-  const name = normalizePlayerName(playerName);
+function deletePlayerHistory(playerKey) {
   const list = getMatchHistory();
-  const targetCount = list.filter(item =>
-    normalizePlayerName(item.p1Name) === name || normalizePlayerName(item.p2Name) === name
-  ).length;
+  const targetCount = list.filter(item => {
+    const p1Key = playerStatKey(item.p1PlayerId || (findPlayerByName(item.p1Name) ? findPlayerByName(item.p1Name).id : null), item.p1Name);
+    const p2Key = playerStatKey(item.p2PlayerId || (findPlayerByName(item.p2Name) ? findPlayerByName(item.p2Name).id : null), item.p2Name);
+    return p1Key === playerKey || p2Key === playerKey;
+  }).length;
 
   if (!targetCount) return;
 
-  const ok = confirm(`${name} の履歴 ${targetCount}件を削除しますか？\nこの操作は戻せません。`);
+  const displayName = playerKey.startsWith("id:")
+    ? playerDisplayNameById(playerKey.slice(3), "このプレーヤー")
+    : playerKey.replace(/^name:/, "");
+
+  const ok = confirm(`${displayName} の履歴 ${targetCount}件を削除しますか？\nこの操作は戻せません。`);
   if (!ok) return;
 
-  const next = list.filter(item =>
-    normalizePlayerName(item.p1Name) !== name && normalizePlayerName(item.p2Name) !== name
-  );
+  const next = list.filter(item => {
+    const p1Key = playerStatKey(item.p1PlayerId || (findPlayerByName(item.p1Name) ? findPlayerByName(item.p1Name).id : null), item.p1Name);
+    const p2Key = playerStatKey(item.p2PlayerId || (findPlayerByName(item.p2Name) ? findPlayerByName(item.p2Name).id : null), item.p2Name);
+    return p1Key !== playerKey && p2Key !== playerKey;
+  });
   setMatchHistory(next);
   renderHistoryList();
+  refreshPlayerManager();
 }
 
 function renderOpponentStats(list) {
@@ -2633,11 +2960,11 @@ function renderOpponentStats(list) {
             <div>S平均<strong>${item.avgSafety}</strong></div>
             <div>F平均<strong>${item.avgFoul}</strong></div>
           </div>
-          <button class="playerHistoryDeleteBtn" onclick="deletePlayerHistory('${escapeHtml(item.name)}')">このプレーヤーの履歴を削除</button>
+          <button class="playerHistoryDeleteBtn" onclick="deletePlayerHistory('${escapeHtml(item.key)}')">このプレーヤーの履歴を削除</button>
         </div>
       `).join("")}
     </div>
-    <div class="opponentNote">※Player 1 / Player 2 のどちらで出ても、同じ名前ごとに集計します。削除すると、その名前が入っている試合履歴をまとめて削除します。</div>
+    <div class="opponentNote">※登録済みプレーヤーはIDで集計します。未登録の過去履歴は名前で集計します。</div>
   `;
 }
 

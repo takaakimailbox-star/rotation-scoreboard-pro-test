@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro prototype with title/continue game set actions.",
+  "description": "Rotation billiards scoreboard Pro with player management.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
