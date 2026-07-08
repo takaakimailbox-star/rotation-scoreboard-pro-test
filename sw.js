@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v2-0-player-management';
+const CACHE_NAME = 'rotation-scoreboard-pro-v2-1-player-select-autosave';
 const ASSETS = [
   './',
   './index.html',
