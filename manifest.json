@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with compact setup and player picker.",
+  "description": "Rotation billiards scoreboard Pro with simplified history: player stats and match history.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -753,7 +753,7 @@ button {
 }
 
 
-/* Pro v2.2: match history */
+/* Pro v2.4: match history */
 .historyCard {
   max-height: min(86dvh, 720px);
   display: flex;
@@ -861,7 +861,7 @@ button {
 }
 
 
-/* Pro v2.2: stats summary */
+/* Pro v2.4: stats summary */
 .historyStats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -910,7 +910,7 @@ button {
 }
 
 
-/* Pro v2.2: saved status is not button-like */
+/* Pro v2.4: saved status is not button-like */
 .savedStatus {
   display: flex;
   align-items: center;
@@ -947,7 +947,7 @@ button {
 }
 
 
-/* Pro v2.2: opponent stats */
+/* Pro v2.4: opponent stats */
 .opponentStats {
   margin: 0 0 12px;
 }
@@ -1016,7 +1016,7 @@ button {
 }
 
 
-/* Pro v2.2: show history from game set */
+/* Pro v2.4: show history from game set */
 .modalBtnHistory {
   border: 0;
   border-radius: 16px;
@@ -1034,7 +1034,7 @@ button {
 }
 
 
-/* Pro v2.2: organized history screen */
+/* Pro v2.4: organized history screen */
 .historyTitleRow {
   display: flex;
   align-items: center;
@@ -1169,7 +1169,7 @@ button {
 }
 
 
-/* Pro v2.2: history bottom overlap fix */
+/* Pro v2.4: history bottom overlap fix */
 .historyCard {
   height: min(88dvh, 740px);
   max-height: min(88dvh, 740px);
@@ -1235,7 +1235,7 @@ button {
 }
 
 
-/* Pro v2.2: full history content scroll fix */
+/* Pro v2.4: full history content scroll fix */
 .historyCard {
   height: min(88dvh, 740px) !important;
   max-height: min(88dvh, 740px) !important;
@@ -1300,7 +1300,7 @@ button {
 }
 
 
-/* Pro v2.2: reliable full history scroll */
+/* Pro v2.4: reliable full history scroll */
 .historyCard {
   height: min(86dvh, 720px) !important;
   max-height: min(86dvh, 720px) !important;
@@ -1369,7 +1369,7 @@ button {
 }
 
 
-/* Pro v2.2: setup validation and history scroll touch fix */
+/* Pro v2.4: setup validation and history scroll touch fix */
 .setupError {
   margin: 10px auto 8px;
   width: min(86vw, 520px);
@@ -1452,7 +1452,7 @@ button {
 }
 
 
-/* Pro v2.2: goal validation fix and opponent spacing */
+/* Pro v2.4: goal validation fix and opponent spacing */
 .opponentList {
   display: grid !important;
   gap: 14px !important;
@@ -1480,7 +1480,7 @@ button {
 }
 
 
-/* Pro v2.2: correct goal input IDs and opponent card spacing */
+/* Pro v2.4: correct goal input IDs and opponent card spacing */
 .opponentList {
   gap: 18px !important;
 }
@@ -1492,7 +1492,7 @@ button {
 }
 
 
-/* Pro v2.2: player-based stats */
+/* Pro v2.4: player-based stats */
 .opponentList {
   display: grid !important;
   gap: 16px !important;
@@ -1505,7 +1505,7 @@ button {
 }
 
 
-/* Pro v2.2: delete histories by player */
+/* Pro v2.4: delete histories by player */
 .playerHistoryDeleteBtn {
   width: 100%;
   margin-top: 10px;
@@ -1522,7 +1522,7 @@ button {
 }
 
 
-/* Pro v2.2: History opened from Game Set scroll fix */
+/* Pro v2.4: History opened from Game Set scroll fix */
 #historyGuide,
 .historyGuide {
   overflow: hidden !important;
@@ -1579,7 +1579,7 @@ button {
 }
 
 
-/* Pro v2.2: history as full-screen scroll page */
+/* Pro v2.4: history as full-screen scroll page */
 #historyGuide,
 .historyGuide {
   position: fixed !important;
@@ -1653,7 +1653,7 @@ button {
 }
 
 
-/* Pro v2.2: history as a completely separate page */
+/* Pro v2.4: history as a completely separate page */
 body.historyPageMode {
   overflow: hidden !important;
   height: 100dvh !important;
@@ -1741,7 +1741,7 @@ body.historyPageMode #historyGuide {
 }
 
 
-/* Pro v2.2: hide history during game and game-set button rename */
+/* Pro v2.4: hide history during game and game-set button rename */
 body.gamePlaying #historyBtn,
 body.gamePlaying .historyTopButton,
 body.gamePlaying button[onclick="openHistory()"].topBtn,
@@ -1776,7 +1776,7 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
 }
 
 
-/* Pro v2.2: player management */
+/* Pro v2.4: player management */
 .playerManagerBtn {
   display: block;
   width: min(86vw, 520px);
@@ -1902,7 +1902,7 @@ body.gamePlaying button[onclick="openHistory()"].headerBtn {
 }
 
 
-/* Pro v2.2: compact setup, player select, auto-save polish */
+/* Pro v2.4: compact setup, player select, auto-save polish */
 html, body {
   min-height: 100%;
   overflow-y: auto;
@@ -2020,7 +2020,7 @@ html, body {
 }
 
 
-/* Pro v2.2: compact title setup and player picker button */
+/* Pro v2.4: compact title setup and player picker button */
 .app {
   padding-bottom: calc(150px + env(safe-area-inset-bottom)) !important;
 }
@@ -2195,6 +2195,232 @@ html, body {
   }
 }
 
+
+/* Pro v2.4: guest input, compact player manager, clearer history sections */
+.app {
+  padding-bottom: calc(180px + env(safe-area-inset-bottom)) !important;
+}
+.setup {
+  padding-top: 4px !important;
+}
+.setup h2 {
+  margin: 0 0 12px !important;
+  font-size: 25px !important;
+}
+.playerSetup {
+  margin: 10px 0 18px !important;
+}
+.playerSetup h3 {
+  font-size: 31px !important;
+  margin-bottom: 8px !important;
+}
+.setupRow {
+  grid-template-columns: 76px 1fr !important;
+  gap: 8px !important;
+  margin: 8px 0 !important;
+}
+.setupRow label {
+  font-size: 20px !important;
+}
+.setup input {
+  font-size: 20px !important;
+  padding: 8px 9px !important;
+}
+.namePickRow {
+  grid-template-columns: minmax(0, 1fr) 104px !important;
+  gap: 7px !important;
+}
+.pickPlayerBtn {
+  font-size: 12px !important;
+  padding: 7px 5px !important;
+}
+.playerManagerBtn {
+  margin: 7px auto 9px !important;
+  padding: 9px 12px !important;
+  font-size: 17px !important;
+}
+.firstPlayerBox {
+  margin: 8px auto 6px !important;
+}
+.firstPlayerTitle {
+  font-size: 19px !important;
+  margin-bottom: 7px !important;
+}
+.firstPlayerBtn {
+  padding: 10px 8px !important;
+}
+.startBtn {
+  margin-top: 14px !important;
+  padding: 15px 14px !important;
+}
+.setupNote {
+  margin-top: 8px !important;
+  padding-bottom: 40px !important;
+}
+
+.playerManagerCard {
+  padding: 18px 14px 18px !important;
+}
+.playerManagerTitle {
+  font-size: 28px !important;
+}
+.playerAddBox {
+  grid-template-columns: 1fr 78px !important;
+  gap: 8px !important;
+}
+.playerAddBox input {
+  font-size: 16px !important;
+  padding: 10px 10px !important;
+}
+.playerAddBox button {
+  font-size: 15px !important;
+}
+.playerManagerList {
+  gap: 7px !important;
+}
+.compactPlayerRow {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 72px 74px 58px;
+  gap: 6px;
+  align-items: center;
+  padding: 9px 8px !important;
+  border-radius: 13px !important;
+  min-height: 48px;
+}
+.compactPlayerName {
+  font-size: 17px;
+  font-weight: 950;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.compactPlayerCount {
+  font-size: 12px;
+  opacity: .76;
+  white-space: nowrap;
+  text-align: center;
+}
+.playerMiniBtn.compact {
+  margin: 0 !important;
+  padding: 8px 5px !important;
+  font-size: 12px !important;
+  border-radius: 10px !important;
+  white-space: nowrap;
+}
+.playerMiniBtn.compact.danger {
+  background: rgba(178,58,48,.9) !important;
+}
+
+.historyScrollableBody > .historySection {
+  border-radius: 22px !important;
+  padding: 14px 12px !important;
+  margin-bottom: 16px !important;
+}
+.historyScrollableBody > .historySection:nth-child(1) {
+  background: linear-gradient(180deg, rgba(28,96,75,.96), rgba(14,70,53,.96)) !important;
+  border: 2px solid rgba(255,213,74,.42) !important;
+  box-shadow: inset 6px 0 0 rgba(255,213,74,.85);
+}
+.historyScrollableBody > .historySection:nth-child(2) {
+  background: linear-gradient(180deg, rgba(20,87,91,.96), rgba(9,68,72,.96)) !important;
+  border: 2px solid rgba(107,213,223,.40) !important;
+  box-shadow: inset 6px 0 0 rgba(107,213,223,.80);
+}
+.historyScrollableBody > .historySection:nth-child(3) {
+  background: linear-gradient(180deg, rgba(73,64,36,.96), rgba(52,48,30,.96)) !important;
+  border: 2px solid rgba(241,139,47,.40) !important;
+  box-shadow: inset 6px 0 0 rgba(241,139,47,.85);
+}
+.historySectionTitle {
+  display: inline-block !important;
+  border-radius: 999px;
+  padding: 6px 14px !important;
+  margin-bottom: 12px !important;
+  letter-spacing: .02em;
+}
+.historyScrollableBody > .historySection:nth-child(1) .historySectionTitle {
+  background: rgba(255,213,74,.18);
+  color: #ffe477;
+}
+.historyScrollableBody > .historySection:nth-child(2) .historySectionTitle {
+  background: rgba(107,213,223,.18);
+  color: #98f1f6;
+}
+.historyScrollableBody > .historySection:nth-child(3) .historySectionTitle {
+  background: rgba(241,139,47,.18);
+  color: #ffbd76;
+}
+.historyStats .statCard {
+  background: rgba(255,255,255,.13) !important;
+}
+.opponentCard {
+  background: rgba(255,255,255,.10) !important;
+  border: 1px solid rgba(152,241,246,.32) !important;
+}
+.historyItem {
+  background: rgba(255,255,255,.11) !important;
+  border: 1px solid rgba(255,189,118,.35) !important;
+}
+@media (max-width: 430px) {
+  .compactPlayerRow {
+    grid-template-columns: minmax(0, 1fr) 62px 66px 52px;
+    gap: 5px;
+  }
+  .compactPlayerName {
+    font-size: 16px;
+  }
+  .compactPlayerCount {
+    font-size: 11px;
+  }
+  .playerMiniBtn.compact {
+    font-size: 11px !important;
+  }
+}
+
+
+/* Pro v2.4: remove overall stats and clarify history sections */
+.historyScrollableBody > .historySection {
+  border-radius: 24px !important;
+  padding: 15px 12px !important;
+  margin-bottom: 18px !important;
+}
+.historyScrollableBody > .historySection:nth-child(1) {
+  background: linear-gradient(180deg, rgba(20,87,91,.98), rgba(8,67,72,.98)) !important;
+  border: 2px solid rgba(107,213,223,.48) !important;
+  box-shadow: inset 7px 0 0 rgba(107,213,223,.88), 0 10px 28px rgba(0,0,0,.16) !important;
+}
+.historyScrollableBody > .historySection:nth-child(2) {
+  background: linear-gradient(180deg, rgba(74,65,36,.98), rgba(51,46,29,.98)) !important;
+  border: 2px solid rgba(241,139,47,.48) !important;
+  box-shadow: inset 7px 0 0 rgba(241,139,47,.90), 0 10px 28px rgba(0,0,0,.16) !important;
+}
+.historyScrollableBody > .historySection:nth-child(1) .historySectionTitle {
+  background: rgba(107,213,223,.18) !important;
+  color: #9af3f8 !important;
+}
+.historyScrollableBody > .historySection:nth-child(2) .historySectionTitle {
+  background: rgba(241,139,47,.18) !important;
+  color: #ffbd76 !important;
+}
+.historySectionTitle {
+  display: inline-block !important;
+  border-radius: 999px !important;
+  padding: 7px 15px !important;
+  margin-bottom: 14px !important;
+  font-size: 22px !important;
+  font-weight: 950 !important;
+}
+.opponentCard {
+  border: 1px solid rgba(154,243,248,.35) !important;
+}
+.historyItem {
+  border: 1px solid rgba(255,189,118,.42) !important;
+}
+.historyGuide .historyCard,
+#historyGuide .historyCard {
+  padding-bottom: 34px !important;
+}
+
 </style>
 </head>
 <body>
@@ -2246,7 +2472,7 @@ html, body {
       <div id="setupError" class="setupError hidden"></div>
         <button id="startBtn" class="startBtn">Start Game</button>
       <div class="setupNote">Goal はそれぞれの持ち点です</div>
-      <div class="versionText">Pro prototype 2.2</div>
+      <div class="versionText">Pro prototype 2.4</div>
     </section>
 
     <section id="game" class="game hidden">
@@ -2346,11 +2572,6 @@ html, body {
 
         <div class="historyScrollableBody">
         <div class="historySection">
-          <div class="historySectionTitle">全体成績</div>
-          <div id="historyStats" class="historyStats"></div>
-        </div>
-
-        <div class="historySection">
           <div class="historySectionTitle">プレーヤー別成績</div>
           <div id="opponentStats" class="opponentStats"></div>
         </div>
@@ -2392,7 +2613,7 @@ html, body {
           <button id="playerAddBtn" type="button">追加</button>
         </div>
         <div id="playerManagerList" class="playerManagerList"></div>
-        <div class="playerManagerNote">※新しく試合を始めると、入力した名前は自動で登録されます。名前変更後も、登録済みIDの履歴は同じ人として集計します。</div>
+        <div class="playerManagerNote">※登録名から選んだ人はIDで記録します。直接入力はゲスト扱いです。未登録名は開始時に登録するか選べます。</div>
       </div>
     </section>
 
@@ -2427,6 +2648,7 @@ let forceNewRow = false;
 let gameEnded = false;
 let currentGameSaved = false;
 let currentPlayerIds = {1:null, 2:null};
+let selectedPlayerIds = {1:null, 2:null};
 
 const colors = {
   1:"#f5d54a",2:"#2b62d9",3:"#c7322d",4:"#8b4bc1",5:"#f08b2f",
@@ -2756,7 +2978,7 @@ function checkWinner() {
     return;
   }
   gameEnded = true;
-  // Pro v2.2: auto save when game ends
+  // Pro v2.4: auto save when game ends
   if (!currentGameSaved) saveCurrentMatch();
   box.classList.remove("hidden");
   const loser = winner === 1 ? 2 : 1;
@@ -2793,6 +3015,10 @@ $("playerAddInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") addPlayerFromManager();
 });
 
+
+$("p1Input").addEventListener("input", () => { markManualNameInput(1); syncFirstPlayerLabels(); });
+$("p2Input").addEventListener("input", () => { markManualNameInput(2); syncFirstPlayerLabels(); });
+
 $("p1PickBtn").onclick = () => openPlayerPicker(1);
 $("p2PickBtn").onclick = () => openPlayerPicker(2);
 $("playerPickerCloseBtn").onclick = closePlayerPicker;
@@ -2817,7 +3043,7 @@ syncFirstPlayerLabels();
   
 
 
-// Pro v2.2: registered player management
+// Pro v2.4: registered player management
 const PLAYERS_KEY = "rotationScoreboardProPlayers";
 
 function normalizePlayerName(name) {
@@ -2844,7 +3070,7 @@ function findPlayerByName(name) {
   return getPlayers().find(p => normalizePlayerName(p.name) === n) || null;
 }
 
-function ensurePlayer(name) {
+function createRegisteredPlayer(name) {
   const n = normalizePlayerName(name);
   let list = getPlayers();
   let found = list.find(p => normalizePlayerName(p.name) === n);
@@ -2859,6 +3085,10 @@ function ensurePlayer(name) {
   setPlayers(list);
   refreshPlayerNameList();
   return found;
+}
+
+function ensurePlayer(name) {
+  return createRegisteredPlayer(name);
 }
 
 function playerDisplayNameById(id, fallback) {
@@ -2879,6 +3109,11 @@ function refreshPlayerNameList() {
 
 
 let playerPickerTarget = 1;
+
+
+function markManualNameInput(which) {
+  selectedPlayerIds[which] = null;
+}
 
 function openPlayerPicker(which) {
   playerPickerTarget = which;
@@ -2908,6 +3143,7 @@ function selectRegisteredPlayer(playerId) {
   if (!p) return;
   const input = $(playerPickerTarget === 1 ? "p1Input" : "p2Input");
   if (input) input.value = p.name;
+  selectedPlayerIds[playerPickerTarget] = p.id;
   syncFirstPlayerLabels();
   clearSetupError();
   closePlayerPicker();
@@ -2931,7 +3167,7 @@ function addPlayerFromManager() {
   const input = $("playerAddInput");
   const name = normalizePlayerName(input ? input.value : "");
   if (!name || name === "名前なし") return;
-  ensurePlayer(name);
+  createRegisteredPlayer(name);
   if (input) input.value = "";
   refreshPlayerManager();
   refreshPlayerNameList();
@@ -2986,30 +3222,56 @@ function refreshPlayerManager() {
     ).length;
 
     return `
-      <div class="playerRow">
-        <div class="playerRowMain">
-          <div>
-            <div class="playerRowName">${escapeHtml(p.name)}</div>
-            <div class="playerRowMeta">履歴 ${count}件</div>
-          </div>
-        </div>
-        <div class="playerRowActions">
-          <button class="playerMiniBtn" onclick="renamePlayer('${p.id}')">名前変更</button>
-          <button class="playerMiniBtn danger" onclick="deleteRegisteredPlayer('${p.id}')">登録削除</button>
-        </div>
+      <div class="playerRow compactPlayerRow">
+        <div class="compactPlayerName">${escapeHtml(p.name)}</div>
+        <div class="compactPlayerCount">履歴 ${count}件</div>
+        <button class="playerMiniBtn compact" onclick="renamePlayer('${p.id}')">名前変更</button>
+        <button class="playerMiniBtn compact danger" onclick="deleteRegisteredPlayer('${p.id}')">削除</button>
       </div>
     `;
   }).join("");
 }
 
+function resolvePlayerIdForStart(which) {
+  const input = $(which === 1 ? "p1Input" : "p2Input");
+  const name = normalizePlayerName(input ? input.value : "");
+  const selectedId = selectedPlayerIds[which];
+
+  if (selectedId) {
+    const selected = getPlayers().find(p => p.id === selectedId);
+    if (selected && normalizePlayerName(selected.name) === name) {
+      return selected.id;
+    }
+  }
+
+  if (!name || name === "名前なし") return null;
+
+  const existing = findPlayerByName(name);
+  if (existing) {
+    const useExisting = confirm(`「${name}」は登録済みです。\n登録プレーヤーとして記録しますか？\n\nキャンセルするとゲスト扱いで記録します。`);
+    return useExisting ? existing.id : null;
+  }
+
+  const registerNow = confirm(`「${name}」をプレーヤー登録しますか？\n\nOK：登録してIDで記録\nキャンセル：ゲストのまま記録`);
+  if (registerNow) {
+    const p = createRegisteredPlayer(name);
+    selectedPlayerIds[which] = p.id;
+    refreshPlayerManager();
+    return p.id;
+  }
+
+  return null;
+}
+
 function attachPlayerIdsFromInputs() {
-  const p1 = ensurePlayer($("p1Input").value || "Player 1");
-  const p2 = ensurePlayer($("p2Input").value || "Player 2");
-  currentPlayerIds = {1:p1.id, 2:p2.id};
+  currentPlayerIds = {
+    1: resolvePlayerIdForStart(1),
+    2: resolvePlayerIdForStart(2)
+  };
 }
 
 
-// Pro v2.2: local match history
+// Pro v2.4: local match history
 const MATCH_HISTORY_KEY = "rotationScoreboardProMatchHistory";
 
 function getMatchHistory() {
@@ -3183,7 +3445,7 @@ function renderHistoryStats(list) {
       <div class="statLabel">F平均</div>
       <div class="statValue">${stats.avgFoul}</div>
     </div>
-    <div class="historyStatsNote">※全体成績はPlayer 1側を基準に集計しています。S/F平均は1試合あたりの合計回数です。</div>
+    <div class="historyStatsNote"></div>
   `;
 }
 
@@ -3334,7 +3596,7 @@ function renderHistoryList() {
   renderOpponentStats(list);
 
   if (!list.length) {
-    el.innerHTML = '<div class="historyEmpty">まだ保存された試合はありません。<br>試合終了後に「履歴に保存」を押すと、ここに表示されます。</div>';
+    el.innerHTML = '<div class="historyEmpty">まだ保存された試合はありません。<br>試合終了時に自動でここに保存されます。</div>';
     return;
   }
 
