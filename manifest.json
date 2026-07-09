@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with registered player and guest policy.",
+  "description": "Rotation billiards scoreboard Pro with matching trash button sizes.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
