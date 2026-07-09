@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with iPhone Safari fit layout.",
+  "description": "Rotation billiards scoreboard Pro with registered player and guest policy.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
