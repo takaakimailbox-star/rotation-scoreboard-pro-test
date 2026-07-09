@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v2-7-bottom-visible';
+const CACHE_NAME = 'rotation-scoreboard-pro-v2-8-iphone-fit';
 const ASSETS = [
   './',
   './index.html',

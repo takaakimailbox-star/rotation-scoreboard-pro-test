@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with visible game log and bottom controls.",
+  "description": "Rotation billiards scoreboard Pro with iPhone Safari fit layout.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
