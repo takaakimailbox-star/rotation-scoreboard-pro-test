@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with improved match history cards.",
+  "description": "Rotation billiards scoreboard Pro with improved player stats readability.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
