@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotation-scoreboard-pro-v4-2-player-trash-same-size';
+const CACHE_NAME = 'rotation-scoreboard-pro-v5-11-match-card-visual';
 const ASSETS = [
   './',
   './index.html',

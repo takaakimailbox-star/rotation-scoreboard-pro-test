@@ -1,7 +1,7 @@
 {
   "name": "Rotation Scoreboard Pro",
   "short_name": "RS Pro",
-  "description": "Rotation billiards scoreboard Pro with matching trash button sizes.",
+  "description": "Rotation billiards scoreboard Pro with improved match history cards.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
